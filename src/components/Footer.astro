@@ -7,7 +7,7 @@ import Signup from '@components/Signup.astro';
 import '@styles/components/Footer.scss';
 
 const today: Date = new Date();
-const follow: Array<{icon: string}> = Object.values(connect.social);
+const follow: Array<{url: string, icon: string}> = Object.values(connect.social);
 ---
 
 <footer class="footer">
@@ -28,11 +28,13 @@ const follow: Array<{icon: string}> = Object.values(connect.social);
 				</nav>
 			</div>
 			<div class="footer-icons col m4">
-				<div class="follow btn-group">
+				<div class="follow">
 					<strong>Follow</strong>
 					<div class="btn-group">
-						{follow.map(item => (
-							<i class={item.icon}></i>
+						{follow.map((item) => (
+							<a href={item.url} target="_blank">
+								<i class={item.icon}></i>
+							</a>
 						))}
 					</div>
 				</div>

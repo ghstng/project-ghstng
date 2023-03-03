@@ -28,14 +28,6 @@ streaming:
     icon: 'icon-iheartradio'
 
 social:
-  - title: Instagram
-    url: https://www.instagram.com/iamghstng/
-    icon: 'icon-instagram'
-
-  - title: Discord
-    url: https://discord.gg/TgDtES8z
-    icon: 'icon-discord'
-
   - title: Youtube
     url: https://youtube.com/@ghstng2222
     icon: 'icon-youtube'
@@ -43,7 +35,15 @@ social:
   - title: Github
     url: https://github.com/ghstng
     icon: 'icon-github'
+
+  - title: Instagram
+    url: https://www.instagram.com/iamghstng/
+    icon: 'icon-instagram'
+
+  - title: Discord
+    url: https://discord.gg/QqNDJ9bt
+    icon: 'icon-discord'
   
-  - title: Patreon
-    url: https://patreon.com/user?u=69732941
-    icon: 'icon-patreon'
+  # - title: Patreon
+  #   url: https://patreon.com/user?u=69732941
+  #   icon: 'icon-patreon'
