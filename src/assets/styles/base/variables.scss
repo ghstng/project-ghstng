@@ -1,0 +1,74 @@
+// Light Theme
+$theme-base:         black;
+$theme-bg:           white;
+
+$body-bg:            $theme-bg;
+
+// Variables
+// -------------------------
+$text-dark:          $theme-base;
+$text:               rgba($theme-base, 0.87);
+$text-light:         rgba($theme-base, 0.67);
+$text-lighter:       rgba($theme-base, 0.37);
+$gray-dark:          $text-dark;
+$gray:               $text;
+$gray-light:         $text-light;
+$gray-lighter:       $text-lighter;
+
+$brand-blue:         #0089ff;
+$brand-green:        #00ff00;
+$brand-red:          #e33851;
+$brand-orange:       #d95e46;
+$brand-purple:       #7b2ec4;
+$brand-pink:         #cc46c7;
+// $yellow:             #FAD83B;
+// $teal:               #00e7cd;
+
+$brand-info:         $brand-blue;
+$brand-success:      $brand-green;
+$brand-danger:       $brand-red;
+$brand-warning:      $brand-orange;
+
+$brand-primary:      $theme-base;
+$brand-secondary:    $brand-blue;
+
+$border-color:       rgba($theme-base, 0.1);
+
+$font-family:        'Poppins', Helvetica, Arial, sans-serif;
+$serif:              'Source Serif Pro', serif;
+
+$gutter-h:           0.5rem;
+$gutter-w:           1rem;
+
+// Blog
+// --------------------------
+$content-wrap:       1200px;
+$blog-wrap:          765px;
+$blog-margin:        220px;
+
+// Platform Colors
+$spotify:            #80D568;
+$youtube-music:      #C82C28;
+$apple-music:        #D46470;
+
+// Responsive Variables
+// ------------------------
+$screen-xs:       600px;
+$screen-sm:       992px;
+$screen-md:       1200px;
+$screen-lg:       1600px;
+$gutter:          1.5rem;
+$gutter-lg:       3rem;
+
+// Header Nav
+$header-height:          6rem;
+$header-height-moving:   4rem;
+
+// Card Shadow
+$card-shadow:       0 0 0 1px rgba(black, 0.025), 
+                    0 1px 3px 0 rgba(black, 0.12), 
+                    0 1px 2px rgba(black, 0.15);
+
+$card-shadow-hover: 0 8px 17px 2px rgba(0, 0, 0, 0.08), 
+                    0 3px 14px 2px rgba(0, 0, 0, 0.1), 
+                    0 5px 5px -3px rgba(0, 0, 0, 0.1);

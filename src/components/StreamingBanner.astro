@@ -1,0 +1,69 @@
+<div class="streaming-banner card padding">
+  <article>
+    <h4>Just want to hear to the final product?</h4>
+    <div>Listen to ghstng releases on your favorite streaming platform</div>
+  </article>
+  <div class="btn-group">
+    <a href="/listen/" class="btn btn-primary btn-icon"><i class="material-symbols-outlined">headphones</i>Listen to ghstng</a>
+  </div>
+</div>
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+
+  .streaming-banner {
+    position: relative;
+    background-image: url('/assets/images/graphics/streaming-banner.svg');
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center right;
+    margin-bottom: 2rem;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    @media(max-width: $screen-md) {
+      flex-direction: column;
+    }
+    &.card {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      background: linear-gradient(75deg, $brand-danger 15%, rgba($brand-warning,0.9) 100%);
+    }
+    article {
+      z-index: 1;
+      h4 {
+        font-size: 2rem;
+        margin: 0;
+      }
+      div {
+        font-size: 20px;
+      }
+    }
+    .btn-group {
+      color: rgba(white, 0.68);
+      z-index: 1;
+      column-gap: 0.35rem;
+      .btn-primary {
+        background: darken($brand-danger, 20%);
+        color: white;
+        display: flex;
+        align-items: center;
+        i {
+          font-size: 16px;
+          margin-right: 0.25rem;
+        }
+      }
+    }
+  }</style>

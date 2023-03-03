@@ -1,0 +1,55 @@
+@import '../base/variables.scss';
+
+spicy-sections {
+  --const-mq-affordances:
+    [screen and (max-width: 599px) ] collapse |
+    [screen and (min-width: 600px) ] tab-bar
+  ;
+  [role="tab"]{    
+    display: inline-flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    margin: 1rem 0.75rem;
+    border-radius: 42px;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out,
+                border 0,2s ease-in-out;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    // Active Tab
+    &[tabindex="0"] {
+      background: $brand-secondary;
+      color: white;
+      .badge {
+        background: $brand-secondary;
+      }
+      i {
+        color: white;
+      }
+    }
+    span {
+      display: inline-flex;
+      align-items: center;
+    }
+    .badge {
+      font-family: monospace;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 18px;
+      line-height: 18px;
+      vertical-align: 2px;
+      background: rgba($theme-bg, 0.5);
+      color: $theme-base;
+      margin-left: 0.25rem;
+    }
+  }
+
+}

@@ -1,0 +1,19 @@
+---
+const {author} = Astro.props;
+
+import { getCollection  } from 'astro:content';
+const team = await getCollection('team');
+const teamMembers = team.map((m) => m.data.artistName || m.data.legalName);
+
+export interface Props {
+	teamMembers: Array<any>
+}
+
+---
+<div class="author">
+  {teamMembers.includes(author) 
+    ? <img src={author.profileImage} class="author-img">
+    : <div><i class="material-symbols-outlined"></i></div>
+  }
+  <span class="author-name truncate">{author}</span>
+</div>

@@ -1,0 +1,69 @@
+@import './variables';
+
+.loading {
+  position: relative;
+  background: rgba(white, 0.05);
+  overflow: hidden;
+}
+
+/* The moving element */
+.loading::after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba($theme-bg, 0.12)), to(transparent));
+  background: linear-gradient(90deg, transparent, rgba($theme-bg, 0.12), transparent);
+  animation: loading 0.8s infinite;
+}
+
+/* Loading Animation */
+@keyframes loading {
+  100% {
+      transform: translateX(100%);
+  }
+}
+.spotify-embed {
+  position: relative;
+  iframe {
+    position: relative;
+    z-index: 1;
+  }
+}
+.loading-wrap {
+  $size:      78px;
+
+  position: absolute;
+  display: flex;
+  width: 100%;
+  padding: 1px;
+  z-index: 0;
+  figure {
+    height: $size;
+    width: $size;
+    min-width: $size;
+    border-radius: 12px;
+    @extend .loading;
+  }
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 1rem;
+    width: 100%;
+    height: $size;
+  }
+  span {
+    display: flex;
+    height: 24px;
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    @extend .loading;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

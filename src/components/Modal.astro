@@ -1,0 +1,76 @@
+---
+const {id} = Astro.props;
+---
+
+<dialog id={id} class="stop-button" onclick={`${id}.close();modalClose(event);`}>
+  <div class="modal-content" onclick={`event.stopPropagation()`}>
+    <slot />
+  </div>
+  <i class="material-symbols-outlined">close</i>
+</dialog>
+
+<style lang="scss" is:global>
+  @import '/src/assets/styles/base/variables.scss';
+  
+  body.modal-is-active {
+    overflow: hidden;
+    &:not(*.modal) {
+      filter: blur(6px);
+    }
+  }
+  dialog[open] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    &::backdrop {
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      background: rgba(lighten($theme-base, 5%), 0.98);
+    }
+    i {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      font-size: 42px;
+      cursor: pointer;
+      color: rgba($theme-bg, 0.37);
+      transition: color 0.15s ease-in-out;
+      &:hover {
+      color: rgba($theme-bg, 0.67);
+      }
+    }
+    .modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      // .video-wrap {
+      //   background: black;
+      // }
+    }
+    @media(max-width: $screen-md) {
+      .modal-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 2rem;
+      }
+    }
+  }
+
+</style>

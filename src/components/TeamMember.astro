@@ -1,0 +1,50 @@
+---
+import {slugify} from '@scripts/utils.js';
+import '@styles/components/TeamMember.scss';
+
+const {members} = Astro.props;
+
+import { getEntryBySlug } from 'astro:content';
+
+export interface Props {
+	members: Array<string>
+}
+---
+{() => {
+  if (members.length > 5) {
+    return (
+      <>
+        {members.slice(0,4).map(async member => {
+          const team = await getEntryBySlug('team', `${slugify(member)}`);
+          return (
+            <div class={`team-member ${slugify(member)}`} data-tooltip={member}>
+              {team.data.profileImage 
+                ? <img src={team.data.profileImage} class="team-member-img">
+                : <span>{Array.from(member)[0].toUpperCase()}</span>
+              }
+            </div>
+          )
+        })}
+        <span class="team-member more" data-tooltip={`${members.length - 4} more`}>
+          <span>{`+${members.length - 4}`}</span>
+        </span>
+      </>
+    )
+  } else {
+    return (
+      <>
+        {members.map(async member => {
+          const team = await getEntryBySlug('team', `${slugify(member)}`);
+          return (
+            <div class={`team-member ${slugify(member)}`} data-tooltip={member}>
+              {team.data.profileImage 
+                ? <img src={team.data.profileImage} class="team-member-img">
+                : <span>{Array.from(member)[0].toUpperCase()}</span>
+              }
+            </div>
+          )
+        })}
+      </>
+    )
+  }
+}}

@@ -1,0 +1,63 @@
+---
+import Default from "@layouts/Default.astro";
+import '@styles/pages/home.scss';
+
+import heroImg from '@images/graphics/girl-headphones.svg'
+---
+
+<Default layoutClass="home">
+	
+	<section class="hero">
+		<div class="hero-bg">
+			<img src={heroImg} alt="" class="hero-img" />
+		</div>
+		<!-- <img src={heroText} alt="Ghtsng Logo" class="hero-text" /> -->
+		<h1>Open Source Music</h1>
+		<div class="btn-group vert">
+			<a href="/projects/" class="btn btn-primary btn-large">Projects</a>
+			<a href="#open-source" class="btn btn-link btn-large">What is Open Source Music?</a>
+		</div>
+	</section>
+
+  <section id="open-source">
+    <div class="center-wrap">
+      <h2>What is 'Open source music'?</h2>
+      <h5>(Short Version)</h5>
+      <p>Open source music is a reimagining of the way music is created and shared. Projects are worked on out in the open. Fans can see the music they love evolving in real-time and other creatives can contribute to projects that catch their interest. Maybe you have the perfect guitar riff to finish a song? Perhaps you are the lyrical peanut butter to someone elses production jelly? This doesn't end with the music, releasing art involves so many things: design, photography, writing, on and on. Open source music is a community of creatives and enthusiasts helping and promoting each other, allowing each other to focus on what they do best, instead of trying to do it ALL.</p>
+      <p>But wait, there's more 😵🤭! Open source music is released under an <a href="/cc-plus/">open license</a>, so anyone can freely use, modify, build upon, or cherry-pick from the work. This includes everything from using it in social media, to classrooms, separate projects, or commercially (depending on the license).</p>
+			<div class="btn-group">
+				<a href="/open-source/" class="btn btn-primary btn-invert btn-large">Learn more</a>
+				<a href="/projects/" class="btn btn-secondary btn-invert btn-large">Projects</a>
+			</div>
+    </div>
+  </section>
+	
+</Default>
+
+<style lang="scss">
+	@import '/src/assets/styles/base/variables.scss';
+	
+  html {
+    scroll-behavior: smooth;
+  }
+	body.home {
+		background: $theme-bg;
+	}
+	.hero {
+		h1 {
+			font-size: 5.5rem;
+			margin: 0;
+			z-index: 1;
+		}
+		> img {
+			max-width: 350px;
+		}
+		.btn-primary {
+			border-radius: 1.5rem;
+			line-height: 36px;
+		}
+	}
+	.subtitle {
+		font-weight: normal;
+	}
+</style>

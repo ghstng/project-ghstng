@@ -1,0 +1,231 @@
+@import './variables.scss';
+
+.expand {
+ flex-grow: 1;
+}
+.hide {
+  display: none!important;
+}
+
+// Flex Grid
+// --------------------------
+.row, .flex {
+ box-sizing: border-box;
+ display: flex;
+ flex: 0 1 auto;
+ flex-direction: row;
+}
+// Gutters
+.row {
+ flex-wrap: wrap;
+ >* {
+  display: inline-block;
+ }
+ &.gutter {
+  > .col {
+    gap: $gutter;
+  }
+ }
+ &.gutter-lg {
+  > .col {
+    gap: $gutter-lg;
+  }
+ }
+}
+// Alignment
+.layout-center {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+// Horizontal Row Alignment
+.flex-left {
+ justify-content: flex-start;
+}
+.flex-right {
+ justify-content: flex-end;
+}
+.flex-center {
+ justify-content: center;
+}
+// Vertical Row Alignment
+.flex-top {
+ align-items: flex-start;
+}
+.flex-bottom {
+ align-items: flex-end;
+}
+.flex-middle {
+ align-items: center;
+}
+// Alignment per cell
+.cell-top {
+ align-self: flex-start;
+}
+.cell-bottom {
+ align-self: flex-end;
+}
+.cell-center {
+ align-self: center;
+}
+// Flex Direction
+.flex-col {
+ display: flex;
+ flex-direction: column;
+}
+.flex-xs-row {
+ @media (max-width: $screen-xs) {
+  flex-direction: row;
+ }
+}
+.flex-sm-col {
+ @media (max-width: $screen-sm) {
+  flex-direction: column;
+ }
+}
+.flex-md-col {
+ @media (max-width: $screen-md) {
+  flex-direction: column;
+ }
+}
+// Base classes
+.col {
+ flex: 100%;
+}
+.fit {
+ flex: 1;
+}
+.full {
+ flex-grow: 1;
+ flex-basis: 0;
+ max-width: 100%;
+}
+.row {
+ .x9 {
+  flex-basis: 75%;
+  max-width: 75%;
+ }
+ .x8 {
+  flex-basis: 66.6667%;
+  max-width: 66.6667%;
+ }
+ .x6 {
+  flex-basis: 50%;
+  max-width: 50%;
+ }
+ .x4 {
+  flex-basis: 33.3333%;
+  max-width: 33.3333%;
+ }
+ .x3 {
+  flex-basis: 25%;
+  max-width: 25%;
+  }
+}
+@media (min-width: $screen-xs) {
+ .row {
+  .s9 {
+   flex-basis: 75%;
+   max-width: 75%;
+  }
+  .s8 {
+   flex-basis: 66.6667%;
+   max-width: 66.6667%;
+  }
+  .s6 {
+   flex-basis: 50%;
+   max-width: 50%;
+  }
+  .s4 {
+   flex-basis: 33.3333%;
+   max-width: 33.3333%;
+  }
+  .s3 {
+   flex-basis: 25%;
+   max-width: 25%;
+  }
+ }
+}
+// Tablets
+@media (min-width: $screen-sm) {
+ .row {
+  .m9 {
+   flex-basis: 75%;
+   max-width: 75%;
+  }
+  .m8 {
+   flex-basis: 66.6667%;
+   max-width: 66.6667%;
+  }
+  .m6 {
+   flex-basis: 50%;
+   max-width: 50%;
+  }
+  .m4 {
+   flex-basis: 33.3333%;
+   max-width: 33.3333%;
+  }
+  .m3 {
+   flex-basis: 25%;
+   max-width: 25%;
+  }
+ }
+}
+// Desktop
+@media (min-width: $screen-md) {
+ .row {
+  .l9 {
+   flex-basis: 75%;
+   max-width: 75%;
+  }
+  .l8 {
+   flex-basis: 66.6667%;
+   max-width: 66.6667%;
+  }
+  .l6 {
+   flex-basis: 50%;
+   max-width: 50%;
+  }
+  .l4 {
+   flex-basis: 33.3333%;
+   max-width: 33.3333%;
+  }
+  .l3 {
+   flex-basis: 25%;
+   max-width: 25%;
+  }
+ }
+}
+// Large Desktops
+@media (min-width: $screen-lg) {
+ .row {
+  .xl6 {
+   flex-basis: 50%;
+   max-width: 50%;
+  }
+  .xl4 {
+   flex-basis: 33.3333%;
+   max-width: 33.3333%;
+  }
+  .xl3 {
+   flex-basis: 25%;
+   max-width: 25%;
+  }
+ }
+}
+.hide-md-down {
+ @media (max-width: $screen-md) {
+  display: none!important;
+ }
+}
+.hide-md-up {
+ display: none!important;
+ @media (max-width: $screen-md) {
+  display: flex!important;
+ }
+}
+.hide-xs {
+ @media (max-width: $screen-xs) {
+  display: none!important;
+ }
+}

@@ -1,0 +1,19 @@
+---
+const releases = (await Astro.glob('../pages/projects/*.{md,mdx}')).sort(
+	(a, b) => new Date(b.frontmatter.releaseDate).valueOf() - new Date(a.frontmatter.releaseDate).valueOf()
+);
+const release = releases[0]
+---
+
+     
+<section class="latest-release">
+  <div class="center-wrap text-center">
+    <h2>Latest Release</h2>
+      <article class="flex-col flex-middle">
+        <div class="spotify-embed">
+          <div class="loading-wrap"><figure></figure><div><span></span><span></span></div></div>
+          <iframe style="border-radius:8px;max-width:400px;" src={`https://open.spotify.com/embed/track/${release.frontmatter.spotifyUri}?utm_source=generator&theme=0`} width="100%" height="80" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+      </article>
+  </div>
+</section>

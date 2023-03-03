@@ -1,0 +1,25 @@
+@import '../base/variables.scss';
+
+// Scrollbar
+// ---------------------
+::-webkit-scrollbar {
+  width: 16px;
+  -webkit-appearance: none;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 14px;
+  background: rgba(#999, 0.7);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-track-piece {
+  ::-webkit-scrollbar-track-piece:start {
+    background: transparent url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7') repeat-y !important;
+  }
+  ::-webkit-scrollbar-track-piece:end {
+      background: transparent url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7') repeat-y !important;
+  }
+}
+::-webkit-scrollbar-button {
+  display: none;
+}

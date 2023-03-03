@@ -1,0 +1,35 @@
+---
+import Page from '@layouts/Page.astro';
+import connect from '@data/connect.yml';
+
+const stream = Object.values(connect.streaming)
+---
+
+<Page>
+  <div class="center-wrap">
+    <h1>Listen to ghstng</h1>
+    <div class="platforms flex-col">
+      {stream.map(item => (
+        <a href={item.url} class="platform"><i class={item.icon}></i> {item.title}</a>
+      ))}
+    </div>
+  </div>
+</Page>
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+  
+  h1 {
+    color: black;
+  }
+  .platforms {
+    row-gap: 1rem;
+  }
+  .platform {
+    font-size: 24px;
+    i {
+      font-size: 36px;
+      margin-right: 1rem;
+    }
+  }
+</style>

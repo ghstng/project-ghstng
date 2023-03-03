@@ -1,0 +1,17 @@
+@import '/src/assets/styles/base/variables.scss';
+
+.author {
+  display: flex;
+  align-items: center;
+  .author-img {
+    $size:  28px;
+
+    width: $size;
+    height: $size;
+    border-radius: calc($size / 2.6);
+    margin-right: 0.5rem;
+  }
+  .author-name {
+    margin-top: -0.15rem;
+  }
+}

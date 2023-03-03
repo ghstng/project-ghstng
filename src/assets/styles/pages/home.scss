@@ -1,0 +1,81 @@
+@import '../base/variables'; 
+
+.home {
+  main {
+    margin-top: 0;
+  }
+}
+.hero {
+  background: $theme-bg;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  .hero-bg {
+    position: absolute;
+    top: $header-height;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.12;
+    overflow: hidden;
+    .hero-img {
+      position: absolute;
+      margin: 0 auto;
+      // top: -18vw;
+      bottom: -4rem;
+      max-height: 130vh;
+      width: 100%;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(0deg, rgba($theme-bg,0) 75%, rgba($theme-bg,1) 100%);
+    }
+  }
+  > img {
+    max-width: 500px;
+  }
+  .btn-group {
+    width: 100%;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .btn-large {
+    max-width: 380px;
+  }
+  @media (max-width: $screen-sm) {
+    height: 80vh;
+    .hero-bg {
+      .hero-img {
+        top: initial;
+        width: auto;
+        max-width: initial;
+      }
+    }
+  }
+}
+
+#open-source {
+  background: $theme-base;
+  color: $theme-bg;
+  padding: 6rem 1rem;
+  font-family: $serif;
+  font-size: 24px;
+  .center-wrap {
+    max-width: 980px;
+  }
+  h2, h5, a:where(.btn) {
+    font-family: $font-family;
+  }
+  h2, h5, a:not(.btn) {
+    color: $theme-bg;
+  }
+}

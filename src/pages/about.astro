@@ -1,0 +1,70 @@
+---
+import Page from '@layouts/Page.astro';
+import JazzedUp from '@components/JazzedUp.astro';
+import '@styles/pages/about.scss';
+---
+
+<Page title="About" pageClass="about">
+
+  <figure class="hero-bg">
+    <img src={`/assets/images/about/ghstng-about.jpg`} alt={`About Ghstng background`} width="100%" />
+  </figure>
+
+  <!-- About -->
+  <section class="hero">
+    <div class="center-wrap">
+      <h1>About ghstng</h1>
+      <p>Ghstng is an independent artist from Denton, Texas who creates open source music with a style that is a blend of "Prince meets The Cure". He is a multi-talented artist who writes, performs, produces, and mixes his own music. Ghstng also acts as a collective, featuring other artists, creatives, and bots.</p>
+      <p>Ghstng's music is characterized by its catchy melodies, emotive vocals, funky beats, and introspective lyrics. He incorporates elements of pop, funk, and post-punk, resulting in a unique and dynamic listening experience he aptly calls <span style="display:inline-flex;">🤘🏽🎸Post-Punk Funk<span style="transform: rotate(-90deg);">🎸</span>🤘🏽</span>. </p>
+      <p>In addition to his work as an artist, ghstng is also an advocate for open source culture. With a history in open source software, he releases much of his music under a <a href="/cc-plus/" target="_blank">Creative Commons Plus</a> license, allowing others to freely share, alter, profit, and build upon his creations.</p>
+    </div>
+  </section>
+
+  <!-- The Person -->
+  <section class="about-person">
+    <div class="center-wrap flex">
+      <figure>
+        <img src={`/assets/images/about/ghstng-about.jpg`} alt={`About Ghstng`} width="100%" />
+      </figure>
+      <article>
+        <h2>Never heard of you...</h2>
+        <p>My name is Gregory Garden. After years of hoarding my art and my life to myself, I've been on a personal journey of sorts (which I write about <a href="/blog/writers-write/" target="_blank">here</a>). This is my attempt to break that habit. Art and life have, and will always be better shared.</p>
+        <div class="btn-group">
+          <a href="/team/ghstng/" class="btn btn-primary btn-large">More about me</a> 
+          <a href="/team/" class="btn btn-secondary btn-large">The team</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- The Name -->
+  <section class="about-name">
+    <div class="about-name-bg"></div>
+    <div class="center-wrap">
+      <h2>Ghosting is bad right!?</h2>
+      <p>The name ghstng, pronounced 'ghosting', represents transparency and self-reflection. It is about giving yourself enough space to see through the bullshit -- honestly examining and expressing your thoughts, experiences, and emotions, while holding yourself accountable for them.</p>
+      <blockquote><em>Ghstng is about giving yourself enough space to see through the bullsh*t.</em></blockquote>
+      <p>This idea is important now more than ever, in a digital world where we are constantly bombarded by distractions and demands on our attention. We've become so overwhelmed by everyone else's thoughts, opinions, and voices, that we lose sight of our own. Ghstng invites us to take back control of our time and well-being, using music as a lense for self-discovery and personal growth.</p>
+    </div>
+  </section>
+
+  <section class="contribute">
+    <div class="center-wrap">
+      <JazzedUp />
+    </div>
+  </section>
+
+</Page>
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+
+  section {
+    a:not(.btn) {
+      // font-weight: normal;
+      text-decoration: underline;
+      text-decoration-style: wavy;
+      text-decoration-color: rgba(white, 0.35);
+    }
+  }
+</style>

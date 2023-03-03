@@ -1,0 +1,29 @@
+---
+import Projects from '@layouts/Projects.astro';
+
+import ProjectsTable from '@components/ProjectsTable.astro';
+
+const songs = (await Astro.glob('./projects/*.{md,mdx}'));
+
+const totalReleased = songs.filter((song) => song.frontmatter.status === 'released');
+const totalInProgress = songs.filter((song) => song.frontmatter.status === 'in-progress');
+const totalUpcoming = songs.filter((song) => song.frontmatter.status === 'upcoming');
+---
+
+<Projects>
+  <section class="cards">
+    <a href="/in-progress" class="card padding">
+      <h2>In-Progress</h2> 
+      <span class="badge">{totalInProgress.length}</span>
+    </a>
+    <a href="/projects" class="card padding active">
+      <h2>Upcoming</h2>
+      <span class="badge">{totalUpcoming.length}</span>
+    </a>
+    <a href="/released" class="card padding">
+      <h2 id="stems">Released </h2>
+      <span class="badge">{totalReleased.length}</span>
+    </a>
+  </section>
+  <ProjectsTable songs={totalUpcoming}/>
+</Projects>

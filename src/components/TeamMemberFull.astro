@@ -1,0 +1,52 @@
+---
+import {slugify} from '@scripts/utils.js';
+
+const {members} = Astro.props;
+---
+
+{() => {
+  if(members.length > 0) {
+    return (
+      <>
+        {members.map( member => (
+          member == 'Stable diffusion' 
+          ? <span class="team-member badge">{member.replace('_', '')}</span>
+          : <a href={`/team/${slugify(member)}`} class={`team-member badge ${slugify(member).replace('_', '')}`} data-tooltip="View Profile">{member.replace('_', '')}</a>
+        ))}
+      </>
+    )
+  } else {
+    return (
+      <a href="/support" class="badge empty">tbd</a>
+    )
+  }
+}}
+
+<style lang="scss" is:global>
+  @import '/src/assets/styles/base/variables.scss';
+
+  .team-member {
+    display: inline-flex;
+    box-shadow: $card-shadow-hover;
+    transition: opacity 0.15s ease-in-out;
+    background: #444;
+    color: white;
+    &.ghstng {
+      background: $theme-bg;
+      color: $theme-base;
+    }
+    &.brenna-johnson {
+      background: $brand-secondary;
+      color: $text-dark;
+    }
+    &.tym-clark {
+      background: $brand-green;
+      color: $text-dark;
+    }
+  }
+  a.empty {
+    box-shadow: 0 0 0 1px rgba($theme-bg, 0.2);
+    color: invert($text-lighter);
+    font-weight: normal;
+  }
+</style>

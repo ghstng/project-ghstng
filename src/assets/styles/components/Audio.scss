@@ -1,0 +1,168 @@
+@import '../base/variables.scss';
+
+.audio-player {
+  position: relative;
+  // max-width: 600px;
+  .btn-action {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+  .player {
+    display: grid;
+    align-items: center;
+    justify-content: flex-start;
+    // background: rgba($theme-bg, 0.08);
+    border-radius: 12px 12px 0 0;
+    padding-right: 0.35rem;
+    column-gap: $gutter-w;
+    grid-template-columns: minmax(min-content, 48px) 1fr;
+  }
+
+  // Play Toggle
+  .play-pause {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: $gutter-w * 1.25;
+    .toggleAudio {
+      $size:   36px;
+  
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: $size;
+      height: $size;
+      border-radius: $size;
+      background: $theme-bg;
+      i {
+        color: $theme-base;
+        font-size: 28px;
+      }
+    }
+  }
+  .controls {
+    width: 100%;
+    flex-direction: column;
+    justify-self: flex-start;
+    padding: calc($gutter-h * 1.75) $gutter-w $gutter-h $gutter-h;
+  }
+
+  // Info
+  .track-info {
+    display: flex;
+    align-items: center;
+    column-gap: $gutter-w;
+    padding-bottom: calc($gutter-h * 0.5);
+    .track-title {
+      display: flex;
+      flex-grow: 1;
+      line-height: 1;
+      color: $theme-bg;
+      font-size: 17px;
+    }
+    .track-time {
+      display: inline-flex;
+      gap: 0.15rem;
+      font-size: 13px;
+      color: rgba($theme-bg, 0.2);
+    }
+    .timer, .duration {
+      color: invert($text-lighter);
+    }
+    .timer {
+      text-align: right;
+    }
+  }
+
+  // Track Progress
+  .track-progress {
+    display: flex;
+    align-items: center;
+    column-gap: calc($gutter-w * 0.75);
+  }
+  #progress {
+    $bar-height:   8px;
+
+    display: inline-flex;
+    align-items: center;
+    background-color: rgba($theme-bg, 0.05);
+    cursor: pointer;
+    height: $bar-height;
+    width: 100%;
+    border-radius: $bar-height;
+    #progress-bar {
+      width: 0%;
+      height: $bar-height;
+      background-color: $theme-bg;
+      border-radius: $bar-height;
+    }
+  }
+  
+  // Playlist
+  #playlist{
+    display: flex;
+    flex-direction: column;
+    padding: 0 $gutter-h $gutter-h;
+    background: linear-gradient(to bottom, rgba($theme-base, 0) 0%, rgba($theme-base, 0.5) 100%);
+  }
+  .playlist-track {
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 calc($gutter-w * 0.5);
+    column-gap: $gutter-w;
+    border-radius: 12px;
+    grid-template-columns: min-content 2fr 1fr 1fr;
+    transition: background-color 0.1s ease-in-out;
+    &:hover {
+      background-color: rgba($theme-bg, 0.06);
+      .playlist-btn-play {
+        i {
+          color: invert($text-lighter);
+        }
+      }
+    }
+    > div{
+      padding: $gutter-h 0;
+    }
+    .playlist-btn-play{
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+      i {
+        color: rgba($theme-bg, 0.2);
+      }
+    }
+    .playlist-track-info,
+    .playlist-artist,
+    .playlist-date {
+      font-size: 14px;
+      pointer-events: none;
+    }
+    .playlist-artist,
+    .playlist-date {
+      color: invert($text-lighter);
+    }
+    .playlist-date {
+      text-align: right;
+      padding-right: 0.35rem;
+    }
+    i {
+      color: invert($text-light);
+    }
+    &.active-track{
+      background-color: rgba($theme-bg, 0.12);
+      .playlist-track-info {
+        color: invert($text-dark);
+      }
+      i[playing="true"] {
+        color: invert($text-dark);
+      }
+    }
+  }
+}

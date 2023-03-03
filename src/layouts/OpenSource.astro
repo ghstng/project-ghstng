@@ -1,0 +1,77 @@
+---
+import Page from "@layouts/Page.astro";
+import {Content} from './open-source.mdx';
+import '@styles/pages/open-source.scss';
+---
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    let options = {
+      root: null,
+      rootMargin: '-25% 0px -40%'
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        if (entry.isIntersecting) {
+          document.querySelector(`nav a[href="#${id}"]`).parentElement.classList.add('active');
+        } else {
+          document.querySelector(`nav a[href="#${id}"]`).parentElement.classList.remove('active');
+        }
+      });
+    }, options);
+
+    document.querySelectorAll('section[id]').forEach((section) => {
+      observer.observe(section);
+    });
+  });
+</script>
+
+<Page title="Open Source" pageClass="open-source">
+  <div class="open-source-wrap">
+    <nav class="section-nav">
+      <ul>
+        <li class="title"><a href="#what-is-open-source-music">What is Open Source Music?</a></li>
+        <li><a href="#introduction">Introduction</a></li>
+        <li class=""><a href="#parallels">Parallels</a></li>
+        <li class=""><a href="#defining-elements">Defining elements</a></li>
+        <ul>
+          <li class=""><a href="#defining-elements--open-licensing">Open licensing</a></li>
+          <li class=""><a href="#defining-elements--transparency">Transparency</a></li>
+          <li class=""><a href="#defining-elements--collaboration">Collaboration</a></li>
+          <li class=""><a href="#defining-elements--replication">Replication</a></li>
+        </ul>
+        <li class=""><a href="#advantages">Advantages</a></li>
+        <li class=""><a href="#challenges">Challenges</a></li>
+        <li class=""><a href="#monetization">Monetization</a></li>
+        <li class=""><a href="#why">Why?</a></li>
+        <li class=""><a href="#where-ghstng-fits">Where Ghstng fits</a></li>
+        <ul>
+          <li class=""><a href="#where-ghstng-fits--show-the-vision">Phase I. Show the vision</a></li>
+          <li class=""><a href="#where-ghstng-fits--build-the-team">Phase II. Build the team</a></li>
+          <li class=""><a href="#where-ghstng-fits--spread-the-love">Phase III. Spread the love</a></li>
+        </ul>
+      </ul>
+    </nav>
+    <div class="viewport">
+      <slot />
+    </div>
+  </div>
+</Page>
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+  
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: $header-height;
+  }
+  .open-source-wrap {
+    display: grid;
+    grid-template-columns: 1.25fr 3fr;
+    @media (max-width: $screen-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+</style>

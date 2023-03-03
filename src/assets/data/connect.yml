@@ -1,0 +1,49 @@
+streaming: 
+  - title: Spotify
+    url: https://open.spotify.com/artist/23FuaoA5JeMfxoPgjGRc1P
+    icon: 'icon-spotify'
+
+  - title: Youtube Music
+    url: https://music.youtube.com/channel/UCaUn9kCjO0_qW02Yne9zDQg
+    icon: 'icon-youtube-music'
+
+  - title: Apple Music
+    url: https://music.apple.com/us/artist/ghstng/1579990090
+    icon: 'icon-apple-music'
+
+  - title: Pandora
+    url: https://www.pandora.com/artist/ghstng/AR4jcJntgqtg6zP
+    icon: 'icon-pandora'
+
+  - title: Tidal
+    url: https://listen.tidal.com/artist/27763528
+    icon: 'icon-tidal'
+
+  - title: Soundcloud
+    url: https://soundcloud.com/iamghstng
+    icon: 'icon-soundcloud'
+
+  - title: iHeartRadio
+    url: https://www.iheart.com/artist/ghstng-36664313/
+    icon: 'icon-iheartradio'
+
+social:
+  - title: Instagram
+    url: https://www.instagram.com/iamghstng/
+    icon: 'icon-instagram'
+
+  - title: Discord
+    url: https://discord.gg/TgDtES8z
+    icon: 'icon-discord'
+
+  - title: Youtube
+    url: https://youtube.com/@ghstng2222
+    icon: 'icon-youtube'
+  
+  - title: Github
+    url: https://github.com/ghstng
+    icon: 'icon-github'
+  
+  - title: Patreon
+    url: https://patreon.com/user?u=69732941
+    icon: 'icon-patreon'

@@ -1,0 +1,25 @@
+---
+import Default from '@layouts/Default.astro';
+import {slugify} from '@scripts/utils.js';
+import '@styles/pages/team.scss';
+
+import { getCollection  } from 'astro:content';
+const team = await getCollection('team');
+---
+
+<Default layoutClass="team">
+  <div class="center-wrap">
+    <h1>Team</h1>
+    <div class="team-members">
+      {team.map((teamMember) => 
+        <a href={`/team/${slugify(teamMember.data.artistName)}`} class="card padding flex">
+          {teamMember.data.profileImage 
+            ? <img src={teamMember.data.profileImage} class="team-img">
+            : <div class="team-img"><i class="material-symbols-outlined">background_replace</i></div>
+          }
+          <div class="artist-name truncate">{teamMember.data.artistName}</div>
+        </a>
+      )}
+    </div>
+  </div>
+</Default>

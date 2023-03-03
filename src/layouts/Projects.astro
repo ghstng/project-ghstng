@@ -1,0 +1,12 @@
+---
+import Page from '@layouts/Page.astro';
+
+import StreamingBanner from '@components/StreamingBanner.astro';
+---
+
+<Page title="Projects" pageClass="projects">
+  <div class="big-wrap">
+    <StreamingBanner />
+    <slot />
+  </div>
+</Page>

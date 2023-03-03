@@ -1,0 +1,21 @@
+{
+  "extends": "astro/tsconfigs/base",
+  "typeRoots": [
+    "node_modules/@types"
+  ],
+  "types": [ "youtube" ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@node/*": ["node_modules/*"],
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@pages/*": ["src/pages/*"],
+      "@assets/*": ["src/assets/*"],
+      "@styles/*": ["src/assets/styles/*"],
+      "@scripts/*": ["src/assets/scripts/*"],
+      "@images/*": ["src/assets/images/*"],
+      "@data/*": ["src/assets/data/*"],
+    },
+  }
+}

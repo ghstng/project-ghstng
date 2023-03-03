@@ -1,0 +1,369 @@
+---
+import Page from "@layouts/Page.astro";
+import { formatDate, capitalize } from '@scripts/utils.js';
+
+import Progress from '@components/Progress.astro';
+import Team from '@components/Team.astro';
+import Audio from "@components/Audio.astro";
+import Modal from "@components/Modal.astro";
+
+import '@styles/components/Progress.scss';
+import '@styles/components/Tooltip.scss';
+import '@styles/components/Comment.scss';
+import '@styles/components/Author.scss';
+import '@styles/pages/projectDetails.scss';
+
+const { frontmatter} = Astro.props;
+
+import { getEntryBySlug } from 'astro:content';
+const comments = await getEntryBySlug('comments', frontmatter.slug);
+const lyrics = await getEntryBySlug('lyrics', frontmatter.slug);
+
+const files = frontmatter.files;
+const media = frontmatter.media
+---
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+
+    // Intersection Observer
+    let options = {
+      rootMargin: '-20% 0px -40%'
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        if (entry.isIntersecting ) {
+          document.querySelector(`.sub-nav a[href="#${id}"]`).classList.add('active');
+        } else {
+          document.querySelector(`.sub-nav a[href="#${id}"]`).classList.remove('active');
+        } 
+      });
+    }, options);
+    document.querySelectorAll('section[id]').forEach((section) => {
+      observer.observe(section);
+    });
+
+  });
+</script>
+
+<Page title={frontmatter.title} pageClass="project-details">
+  {frontmatter.slug &&
+    <figure class="hero-bg">
+      <img src={`/assets/images/projects/${frontmatter.slug}.jpg`} alt={`${frontmatter.title} artwork`} width="100%" />
+    </figure>
+  }
+  <div class="big-wrap">
+    <div class="hero">
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="/projects/">
+          <i class="material-symbols-outlined">arrow_back</i>
+          <span>Projects</span>
+        </a>/
+        <span class="title">{frontmatter.title}</span>
+      </div>
+      
+      <!-- Project header -->
+      <div class="project-header">
+        {frontmatter.artwork
+          ? <figure>
+              <img src={`/assets/images/projects/${frontmatter.slug}.jpg`} 
+                  alt={`${frontmatter.title} artwork`} 
+                  onclick={`window.coverImg.showModal();modalOpen(event)`} 
+                  style="cursor:pointer;" 
+              />
+              <Modal id="coverImg">
+                <img src={`/assets/images/projects/${frontmatter.slug}.jpg`} alt={`${frontmatter.title} artwork`} />
+              </Modal>
+            </figure>
+          : <figure>
+              <div class={`item-image default ${frontmatter.status}`}>No artwork</div>
+            </figure>
+        }
+        <div class="project-info expand">
+          <h1 class="truncate">{frontmatter.title}</h1>
+          <div class="project-artist">
+            {() => {
+              const featured = frontmatter.featured;
+              if(featured && featured.length > 0){
+                return (
+                  <>
+                    {frontmatter.artist}
+                    <span>, {featured.length > 1 ? featured.join(', ') : featured}</span>
+                  </>
+                )
+              } else if (frontmatter.artist) {
+                return (
+                  frontmatter.artist
+                )
+              } else {
+                return (
+                  <span class="empty">No Artist</span>
+                )
+              }
+            }}
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="content">
+
+      <!-- Sidebar -->
+      <aside>
+        <div class="song-info flex">
+          <div class="flex-col">
+            <div class="item-status">
+              <label>Status:</label>
+              <span><span class={`badge ${frontmatter.status}`}>{frontmatter.status}</span></span>
+            </div>
+            <div>
+              <label>Release Date:</label>
+              {() => {
+                return <span>{formatDate(frontmatter.releaseDate)}</span>
+              }}
+            </div>
+            <div><label>Project Type:</label> <span>{capitalize(frontmatter.project)}</span></div>
+            <div>
+              <label>License:</label> 
+              <span>
+                { frontmatter.type === 'open-source' 
+                  ? <a href="/cc-plus/" data-tooltip="View license" target="_blank">{capitalize(frontmatter.type)}</a> 
+                  : capitalize(frontmatter.type)
+                }
+              </span> 
+            </div>
+          </div>
+          {frontmatter.progress && <Progress weights={frontmatter} />}
+        </div>
+        {frontmatter.progress && <Team frontmatter={frontmatter} />}
+      </aside>
+
+      <!-- Main Content -->
+      <div class="card">
+        <div>
+
+          <!-- Audio: figure out best place to host, don't want to self-host -->
+          {frontmatter.songs
+            ? <section id="music">
+                <div class="playlist">
+                  {frontmatter.songs && <Audio Audio={frontmatter.songs}/>}
+                </div>
+              </section>
+            : <section id="music" class="no-audio">
+                <h2>Audio</h2>
+                <div class="empty">Check back later!</div>
+              </section>
+          }
+
+          <!-- Lyrics: revision history at some point could be rad, but maybe outside scope of this site (MVP) -->
+          <section id="lyrics">
+            {lyrics !== undefined &&
+              lyrics.body.length > 0 &&
+                (async () => {
+                  const { Content } = await lyrics.render();
+                  return (
+                    <div class="lyrics-header">
+                      <h2>{frontmatter.title}</h2>
+                      {lyrics.data.driveUrl &&
+                        <a href={} class="link">View in Drive <i class="material-symbols-outlined">open_in_new</i></a>
+                      }
+                    </div>
+                    <Content />
+                  )
+                })
+            }
+            {(lyrics === undefined || lyrics.body.length === 0) &&
+              <div class="empty-state">
+                <h2>Lyrics</h2>
+                <div class="empty">Check back later!</div>
+              </div>
+            }
+          </section>
+
+          <!-- Files: Hook up to Google Drive API at some point, requires making site SSR -->
+          <section id="files">
+            <div class="files-header flex">
+              <h2>Files</h2>
+              {frontmatter.files &&
+                frontmatter.filesProjectUrl &&
+                  <a href={frontmatter.filesProjectUrl} class="link">
+                    View project in Drive 
+                  </a>
+              }
+            </div>
+            {frontmatter.files &&
+              <div class="google-drive">
+                {Object.keys(files).map(item =>
+                  <a href={files[item].url} class="folder" target="_blank" title="Open Folder in Drive">
+                    <i class="material-symbols-outlined folder-icon">folder</i>
+                    <span class="folder-name">{files[item].name}</span>
+                    <span class="folder-type">{files[item].type}</span>
+                    <span class="folder-date">{formatDate(files[item].date)}</span>
+                    <i class="material-symbols-outlined folder-link">open_in_new</i>
+                  </a>
+                )}
+              </div>
+            }
+            {!frontmatter.files &&
+              <div class="empty">Check back later!</div>
+            }
+          </section>
+
+          <!-- Comments: Manually added, still gets point across for now -->
+          <section id="updates">
+            {comments !== undefined &&
+              comments.body.length > 0 &&
+                (async () => {
+                  const { Content } = await comments.render();
+                  return (
+                    <h2>Updates</h2>
+                    <Content />
+                  )
+                })
+            }
+            {(comments === undefined || comments.body.length === 0) &&
+              <div class="emtpy-state">
+                <h2>Updates</h2>
+                <div class="empty">Check back later!</div>
+              </div>
+            }
+          </section>
+
+          <!-- Media -->
+          <section id="media">
+            <h2>Media</h2>
+            {!frontmatter.media &&
+              <div class="empty">Check back later!</div>
+            }
+            {frontmatter.media &&
+              <div class="media-wrap">
+                {Object.keys(media).map((item, i) => {
+                  return (
+                    <div id={media[item].videoId} class="media-item play-button" onclick={`mediaItem.showModal();modalOpen(event, this.id);scrollDisabled()`}>
+                      <figure>
+                        <div class="thumbnail-wrap">
+                          <img src={`https://i3.ytimg.com/vi/${media[item].videoId}/hqdefault.jpg`}>
+                          <i class="material-symbols-outlined">play_arrow</i>
+                        </div>
+                      </figure>
+                      <span class="media-name">{media[item].name}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <Modal id="mediaItem">
+                <div class="video-wrap">
+                  <iframe class="youtube-video" width="800" height="450" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  <div id="player"></div>
+                </div> 
+              </Modal>
+            }
+          </section>
+        </div>
+
+        <nav class="sub-nav">
+          <a href="#music">Audio</a>
+          <a href="#lyrics">Lyrics</a>
+          <a href="#files">Files</a>
+          <a href="#updates">Updates</a>
+          <a href="#media">Media</a>
+        </nav> 
+      </div>
+    </div>
+  </div>
+</Page>
+
+<!-- Modal Open: inject youtube id, play video && disable scroll -->
+<script is:inline>
+  window.modalOpen = function(e, src){
+    if(document.querySelector('.youtube-video')){
+      document.querySelector('.youtube-video').setAttribute('src', `https://www.youtube.com/embed/${src}?rel=0&autoplay=1`);
+    }
+    document.querySelector('body').classList.add('modal-is-active');
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        modalClose(e)
+      }
+    });
+    e.preventDefault();
+  }
+  window.modalClose = function(e){
+    if(document.querySelector('.youtube-video')){
+      document.querySelector('.youtube-video').setAttribute('src', '');
+    }
+    document.querySelector('body').classList.remove('modal-is-active');
+    document.removeEventListener('keydown', event);
+    e.preventDefault();
+  }
+</script>
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: $header-height;
+  }
+
+  .content {
+    display: grid;
+    column-gap: 1.5rem;
+    container-type: inline-size;
+    grid-template-columns: 
+      400px
+      2fr
+    ;
+    .card {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      column-gap: 2rem;
+    }
+    #files {
+      width: 100%;
+      .folder {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 42px 1fr 1fr 1fr 42px;
+      }
+    }
+    #media {
+      .media-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 1rem;
+      }
+
+    }
+  }
+  @media (max-width: $screen-md) {
+    .content {
+      grid-template-columns: 1fr;
+      .card {
+        grid-template-columns: 1fr;
+        nav {
+          flex-direction: row;
+          margin-top: 2rem;
+          padding-bottom: 1rem;
+          column-gap: 2rem;
+        }
+        > div {
+          order: 2;
+        }
+      }
+    }
+    article {
+      order: 2;
+    }
+    section {
+      grid-template-columns: 1fr!important;
+    }
+    aside .team {
+      position: relative!important;
+      top: initial!important;
+    }
+  }
+</style>

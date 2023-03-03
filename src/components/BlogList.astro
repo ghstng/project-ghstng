@@ -1,0 +1,44 @@
+---
+import {slugify, formatDate, formatBlogPosts} from '@scripts/utils.js';
+import '@styles/components/BlogList.scss';
+
+import { getCollection, getEntryBySlug  } from 'astro:content';
+
+const posts = await getCollection('blog')
+const formattedPosts = formatBlogPosts(posts, {
+  limit: 4,
+});
+---
+
+<div class="posts flex-col">
+  {formattedPosts.map(async post => {
+    const team = await getEntryBySlug('team', `${slugify(post.data.author)}`);
+    let wordcount = post.body.split(' ').length;
+    let avgReadTime = Math.ceil(wordcount/225);
+    return (
+      <a href={`/blog/${post.slug}`} class="post card padding">
+        <div class="flex-col expand">
+          <div class="post-category">{post.data.category}</div>
+          <div class="post-title">{post.data.title}</div>
+          <div class="post-description">{post.data.description}</div>
+          <div class="post-info flex">
+            {team.data.profileImage
+              ? <img src={team.data.profileImage} class="post-author-img">
+              : <div><i class="material-symbols-outlined"></i></div>
+            }
+            <div class="flex-col">
+              <div class="post-author flex">
+                {post.data.author}
+              </div>
+              <div class="post-date flex">
+                <div class="post-date">{formatDate(post.data.updated ? post.data.updated : post.data.pubDate)}</div>
+                <span>•</span>
+                <div class="read-time">{`${avgReadTime + 'min' + ' ' + 'read'}`}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    )
+  })}
+</div>

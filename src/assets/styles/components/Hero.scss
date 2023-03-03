@@ -1,0 +1,43 @@
+.hero {
+  // background: $theme-bg;
+  position: relative;
+  padding-top: 10em;
+  padding-bottom: 3rem;
+  filter: saturate(0.86);
+  h1 {
+    // color: white;
+    margin-bottom: 1.5em;
+    font-weight: bold;
+    line-height: 1.15;
+    margin-top: 0;
+    margin-bottom: 0.35em;
+  }
+  .subtitle {
+    font-size: 1.25rem;
+    font-weight: normal;
+    color: rgba(white, 0.8);
+  }
+  @media (max-width: $screen-md) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (max-width: $screen-sm){
+    flex-direction: column;
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+    &:before {
+      display: none;
+    }
+    .title {
+      font-size: 2rem;
+    }
+    .dropdown-content {
+      .title {
+        font-size: 1rem;
+      }
+    }
+    .subtitle {
+      font-size: 1.1rem;
+    }
+  }
+}

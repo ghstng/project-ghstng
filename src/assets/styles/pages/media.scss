@@ -1,0 +1,12 @@
+@import '/src/assets/styles/base/variables.scss';
+
+.media {
+  .playlist {
+    margin-top: 2rem;
+    h4 {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 1.5rem
+    }
+  }
+}

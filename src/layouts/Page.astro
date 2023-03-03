@@ -1,0 +1,13 @@
+---
+import Default from "./Default.astro";
+
+export interface Props {
+  pageClass?: string;
+  title?: string;
+}
+const { pageClass } = Astro.props;
+---
+
+<Default layoutClass={`page ${pageClass}`}>
+  <slot />
+</Default>

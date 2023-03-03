@@ -1,0 +1,139 @@
+@import '../base/variables.scss';
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 ($gutter-w * 1.5);
+  height: $header-height;
+  transition: height 0.25s ease-in-out;
+  backdrop-filter: saturate(50%) blur(8px);
+  overflow: hidden;
+  z-index: 10;
+  &.moving {
+    background: rgba($theme-bg, 0.9);
+    height: $header-height-moving;
+  }
+  .menu-btn {
+    margin-left: -0.25rem;
+    i {
+      font-size: 32px;
+    }
+  }
+  .logo {
+    display: flex;
+    img {
+      height: 42px;
+    }
+    .logo-icon-invert {
+      display: none;
+    }
+  }
+  nav {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    a {
+      font-size: 16px;
+      margin: 0 ($gutter-w * 1.5);
+      &.active {
+        color: $brand-secondary;
+        transition: text-decoration-color 0.2s ease-in-out;
+      }
+    }
+    @media(max-width: $screen-md) {
+      a {
+        display: none;
+      }
+    }
+  }
+  .btn-group {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: calc($gutter-h / 2);
+    column-gap: 1.25rem;
+    // .btn {
+    //   height: 42px;
+    // }
+    .btn-icon {
+      padding: 0;
+      i {
+        font-size: 28px;
+        color: $text-dark;
+      }
+    }
+  }
+}
+
+// Page Header (Inverted)
+.page {
+  .header {
+    color: invert($text-dark);
+    &.moving {
+      background: rgba($theme-base, 0.85);
+      .menu-btn i {
+        color: invert($text-dark);
+      }
+    }
+    .logo {
+      img {
+        &.logo-icon {
+          display: none;
+        }
+        &.logo-icon-invert {
+          display: flex;
+        }
+      }
+    }
+    nav {
+      a {
+        color: invert($text-dark);
+        &.active {
+          color: $brand-secondary;
+        }
+      }
+    }
+    .btn-icon {
+      i {
+        color: invert($text-dark);
+      }
+    }
+    .btn-primary {
+      background: invert($theme-base);
+      color: $text-dark;
+    }
+  }
+}
+
+// Mobile nav
+// --------------------------
+#headerMobile {
+  img {
+    margin-bottom: 6rem;
+  }
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    a {
+      font-size: 24px;
+      font-weight: normal;
+      line-height: 2;
+      width: 100%;
+      justify-content: center;
+      outline: none;
+      cursor: pointer;
+      color: white;
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+  }
+  &::backdrop {
+    background: $theme-base;
+  }
+}

@@ -1,0 +1,97 @@
+---
+import Page from "@layouts/Page.astro";
+import BlogList from "@components/BlogList.astro";
+import Modal from "@components/Modal.astro";
+
+import "@styles/pages/news.scss";
+import "@styles/components/MediaWrap.scss";
+
+import media from '@data/media.yml';
+---
+
+<Page title="News" pageClass="page news">
+	<section class="latest-posts">
+		<div class="center-wrap">
+			<div class="section-header flex">
+				<h2 class="expand">Latest Posts</h2>
+				<a class="btn btn-secondary btn-invert" href="/blog/">All Posts</a>
+			</div>
+			<BlogList />
+		</div>
+	</section>
+	<section class="media">
+		<div class="center-wrap">
+			<div class="section-header flex">
+				<h2 class="expand">Media</h2>
+				<a class="btn btn-secondary btn-invert" href="/media/">All Media</a>
+			</div>
+			<div>I will post media mentions here, maybe video updates, open source music series idk.</div>
+      <div class="media-wrap">
+        {media.map(item =>
+						<div id={item.videoId} class="media-item play-button" onclick={`mediaItem.showModal();modalOpen(event, this.id);`}>
+							<figure>
+								<div class="thumbnail-wrap">
+									<img src={`https://i3.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}>
+									<i class="material-symbols-outlined">play_arrow</i>
+								</div>
+							</figure>
+							<span class="media-name">{item.name}</span>
+						</div>
+					)
+				}
+      </div>
+      <Modal id="mediaItem">
+        <div class="video-wrap">
+          <iframe class="youtube-video" width="800" height="450" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <div id="player"></div>
+        </div> 
+      </Modal>
+		</div>
+  </section>
+	<section class="shows">
+		<div class="center-wrap">
+			<h2>Shows</h2>
+			<div>I'm hella busy at the moment, but will try to do some small shows later in the Fall (2023).</div>
+		</div>
+  </section>
+</Page>
+
+<!-- Modal Open: inject youtube id, play video && disable scroll -->
+<script is:inline>
+  window.modalOpen = function(e, src){
+    if(document.querySelector('.youtube-video')){
+      document.querySelector('.youtube-video').setAttribute('src', `https://www.youtube.com/embed/${src}?rel=0&autoplay=1`);
+    }
+    document.querySelector('body').classList.add('modal-is-active');
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        modalClose(e)
+      }
+    });
+    e.preventDefault();
+  }
+  window.modalClose = function(e){
+    if(document.querySelector('.youtube-video')){
+      document.querySelector('.youtube-video').setAttribute('src', '');
+    }
+    document.querySelector('body').classList.remove('modal-is-active');
+    document.removeEventListener('keydown', event);
+    e.preventDefault();
+  }
+</script>
+
+<style lang="scss">
+	@import '/src/assets/styles/base/variables.scss';
+
+	.media-wrap {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		gap: 1rem;
+		@media (max-width: $screen-md) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		@media (max-width: $screen-sm) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+</style>

@@ -1,0 +1,58 @@
+@import '../base/variables.scss';
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: lighten($theme-base, 5%);
+  background: linear-gradient(to bottom, lighten(black, 5.5%) 0%, black 100%);
+  color: invert($theme-base);
+  padding: 4rem $gutter-w;
+  img {
+    height: 1.8rem;
+    margin-bottom: $gutter-w;
+  }
+  a, i, strong {
+    color: invert($theme-base);
+  }
+  .center-wrap {
+    max-width: 960px;
+    > .row {
+      flex-wrap: nowrap;
+      column-gap: 2rem;
+      margin-bottom: 4rem;
+    }
+  }
+  .connect {
+    align-items: flex-start;
+    strong {
+      margin-bottom: 0.5rem;
+      margin-top: 2rem;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+  .follow, .listen, .signup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    strong {
+      font-size: 1.15rem;
+      margin-bottom: 0.35rem;
+    }
+    .btn-group {
+      column-gap: 0.8rem;
+    }
+  }
+  .footer-icons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+  }
+  .cc {
+    i {
+      margin-right: 0.35rem;
+    }
+  }
+}

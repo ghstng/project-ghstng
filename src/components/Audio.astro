@@ -1,0 +1,257 @@
+---
+import '/src/assets/styles/components/Audio.scss';
+const {Audio} = Astro.props;
+---
+
+<div class="audio-player">
+  <audio id="audio">
+    <source id="source-audio" src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="player">
+    <div class="play-pause">
+      <div class="btn-action toggleAudio">
+        <i class='material-symbols-outlined' id="icon-play-pause">play_arrow</i>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="track-info">
+        <div class="track-title"></div>
+        <div class="track-time">
+          <div class="timer">0:00</div>/
+          <div class="duration">0:00</div>
+        </div>
+      </div>
+      <div class="track-progress">
+        <div id="progress">
+          <div id="progress-bar"></div>
+        </div>
+        <div class="btn-action previous">
+          <i class='material-symbols-outlined'>skip_previous</i>
+        </div>
+        <div class="btn-action next">
+          <i class='material-symbols-outlined'>skip_next</i>
+        </div>
+        <div class="btn-action toggleMute" id="toggleMute">
+          <i id="icon-vol-toggle" class='material-symbols-outlined'>volume_up</i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="playlist"></div>
+</div>
+
+<script define:vars={{Audio}}>
+
+  function createTrackItem(index,name,artist,date){
+    var trackItem = document.createElement('div');
+    trackItem.setAttribute("class", "playlist-track");
+    trackItem.setAttribute("id", "pt-"+index);
+    trackItem.setAttribute("data-index", index);
+    document.querySelector("#playlist").appendChild(trackItem);
+
+    var playBtnItem = document.createElement('div');
+    playBtnItem.setAttribute("class", "playlist-btn-play");
+    playBtnItem.setAttribute("id", "pbp-"+index);
+    document.querySelector("#pt-"+index).appendChild(playBtnItem);
+
+    var btnImg = document.createElement('i');
+    btnImg.setAttribute("class", "material-symbols-outlined");
+    btnImg.innerHTML = 'play_arrow'
+    btnImg.setAttribute("height", "40");
+    btnImg.setAttribute("width", "40");
+    btnImg.setAttribute("id", "p-img-"+index);
+    btnImg.setAttribute("playing", false);
+    document.querySelector("#pbp-"+index).appendChild(btnImg);
+
+    var trackInfoItem = document.createElement('div');
+    trackInfoItem.setAttribute("class", "playlist-track-info");
+    document.querySelector("#pt-"+index).appendChild(trackInfoItem);
+
+    var trackInfoIndex = document.createElement('span');
+    trackInfoIndex.setAttribute("class", "track-info-index");
+    // trackInfoIndex.innerHTML = (index+1)+'. ';
+    document.querySelector('#pt-'+index+' '+'.playlist-track-info').appendChild(trackInfoIndex)
+
+    var trackInfoText = document.createElement('span');
+    trackInfoText.innerHTML = name
+    document.querySelector('#pt-'+index+' '+'.playlist-track-info').appendChild(trackInfoText)
+
+    var trackArtistItem = document.createElement('div');
+    trackArtistItem.setAttribute("class", "playlist-artist");
+    trackArtistItem.innerHTML = artist
+    document.querySelector("#pt-"+index).appendChild(trackArtistItem);
+
+    var trackDateItem = document.createElement('div');
+    trackDateItem.setAttribute("class", "playlist-date");
+    date = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {month: 'short', day: '2-digit',  year: 'numeric'})
+    trackDateItem.innerHTML = date;
+    document.querySelector("#pt-"+index).appendChild(trackDateItem);
+
+  }
+
+  var listAudio = Audio
+  var indexAudio = 0;
+
+  for (var i = 0; i < listAudio.length; i++) {
+    createTrackItem(i,listAudio[i].name,listAudio[i].artist,listAudio[i].date);
+  }
+
+  function loadNewTrack(index){
+    var player = document.querySelector('#source-audio')
+    player.src = listAudio[index].file
+    document.querySelector('.track-title').innerHTML = listAudio[index].name
+    currentAudio = document.getElementById("audio");
+    currentAudio.load()
+    toggleAudio()
+    updateStylePlaylist(indexAudio,index)
+    indexAudio = index;
+  }
+
+  var playListItems = document.querySelectorAll(".playlist-track");
+
+  for (let i = 0; i < playListItems.length; i++){
+    playListItems[i].addEventListener("click", getClickedElement);
+  }
+
+  function getClickedElement(event) {
+    for (let i = 0; i < playListItems.length; i++){
+      if(playListItems[i] == event.target){
+        var clickedIndex = event.target.getAttribute("data-index")
+        if (clickedIndex == indexAudio ) {
+            toggleAudio()
+        }else{
+            loadNewTrack(clickedIndex);
+        }
+      }
+    }
+  }
+
+  document.querySelector('#source-audio').src = listAudio[indexAudio].file
+  var currentAudio = document.getElementById("audio");
+
+  function init() {
+    document.querySelector('.track-title').innerHTML = listAudio[indexAudio].name
+    currentAudio.volume = 0.5;
+    currentAudio.load();
+  }
+
+  currentAudio.onloadedmetadata = function() {
+    document.querySelector('.duration').innerHTML = getMinutes(currentAudio.duration)
+  };
+
+  function toggleAudio() {
+    if (currentAudio.paused) {
+      document.querySelector('#icon-play-pause').innerHTML = 'pause'
+      document.querySelector('#pt-'+indexAudio).classList.add("active-track");
+      playToPause(indexAudio)
+      currentAudio.play();
+    }else{
+      document.querySelector('#icon-play-pause').innerHTML = 'play_arrow'
+      pauseToPlay(indexAudio)
+      currentAudio.pause();
+    }
+  }
+
+  var timer = document.querySelector('.timer')
+  var barProgress = document.getElementById("progress-bar");
+
+  function onTimeUpdate() {
+    var t = currentAudio.currentTime
+    timer.innerHTML = getMinutes(t);
+    setBarProgress();
+    if (currentAudio.ended) {
+      document.querySelector('#icon-play-pause').innerHTML = 'play_arrow'
+      pauseToPlay(indexAudio)
+      if (indexAudio < listAudio.length-1) {
+          var index = parseInt(indexAudio)+1
+          loadNewTrack(index)
+      }
+    }
+  }
+
+  function setBarProgress(){
+    var progress = (currentAudio.currentTime/currentAudio.duration)*100;
+    document.getElementById("progress-bar").style.width = progress + "%";
+  }
+
+  function getMinutes(t){
+    var min = parseInt(parseInt(t)/60);
+    var sec = parseInt(t%60);
+    if (sec < 10) {
+      sec = '0'+sec
+    }
+    if (min < 10) {
+      min = min
+    }
+    return min+":"+sec
+  }
+
+  var progressbar = document.querySelector('#progress')
+  progressbar.addEventListener("click", seek);
+
+  function seek(event) {
+    var percent = event.offsetX / progressbar.offsetWidth;
+    currentAudio.currentTime = percent * currentAudio.duration;
+    barProgress.style.width = percent*100 + "%";
+  }
+
+  function next(){
+    if (indexAudio <listAudio.length-1) {
+        var oldIndex = indexAudio
+        indexAudio++;
+        updateStylePlaylist(oldIndex,indexAudio)
+        loadNewTrack(indexAudio);
+    }
+  }
+
+  function previous(){
+    if (indexAudio>0) {
+        var oldIndex = indexAudio
+        indexAudio--;
+        updateStylePlaylist(oldIndex,indexAudio)
+        loadNewTrack(indexAudio);
+    }
+  }
+
+  function updateStylePlaylist(oldIndex,newIndex){
+    document.querySelector('#pt-'+oldIndex).classList.remove("active-track");
+    pauseToPlay(oldIndex);
+    document.querySelector('#pt-'+newIndex).classList.add("active-track");
+    playToPause(newIndex)
+  }
+
+  function playToPause(index){
+    var ele = document.querySelector('#p-img-'+index)
+    ele.setAttribute("playing", true);
+    ele.innerHTML = 'pause'
+  }
+
+  function pauseToPlay(index){
+    var ele = document.querySelector('#p-img-'+index)
+    ele.setAttribute("playing", false);
+    ele.innerHTML = 'play_arrow'
+  }
+
+  function toggleMute(){
+    var btnMute = document.querySelector('#toggleMute');
+    var volToggle= document.querySelector('#icon-vol-toggle');
+    if (currentAudio.muted == false) {
+       currentAudio.muted = true
+       volToggle.innerHTML = 'volume_mute'
+    }else{
+      currentAudio.muted = false
+       volToggle.innerHTML = 'volume_up'
+    }
+  }
+
+  init()
+
+  document.querySelector('.previous').addEventListener('click', previous )
+  document.querySelector('.toggleAudio').addEventListener('click', toggleAudio )
+  document.querySelector('.next').addEventListener('click', next )
+  document.querySelector('.toggleMute').addEventListener('click', toggleMute )
+  document.querySelector('#audio').addEventListener('timeupdate', onTimeUpdate )
+
+</script>

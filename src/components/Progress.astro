@@ -1,0 +1,99 @@
+---
+const {weights} = Astro.props;
+---
+
+<div class="item-progress">
+  {() => {
+    const p = weights.progress;
+    const lyrics = p.songwriting.lyrics;
+    const melody = p.songwriting.melody;
+    const ldVox = p.vocals.lead;
+    const bgv = p.vocals.background;
+    const prod = p.production.producer
+    const mix = p.engineering.mix;
+    let count = 0;
+    let total = 0;
+
+    // Check if any values contain underscore(*denotes item 'in-progress')
+    function findSubstring(arr){
+      if(arr.find(str=>str.includes('_'))){
+        return true
+      }
+    }
+
+    // Default weight
+    const weight = 1;
+
+    // Calc count
+    Object.values(p).map(val => {
+      Object.values(val).map(v => {
+        if(Object.values(v).length > 0) {
+          // If 'in-progess' (ie. includes underscore) item weight is half
+          if(findSubstring(v)) {
+            return count = count + (weight / 2)
+          } else {
+            return count = count + weight
+          }
+        }
+      })
+    })
+
+    // Calc total
+    Object.values(p).map(val => {
+      const size = Object.keys(val).length
+      return total = total + (size * weight)
+    })
+
+    // Update Count with custom weights
+    function weightCount(item, num) {
+      if(item.length > 0 ){
+        if(findSubstring(item)) {
+          return count = count + ((num / 2) - (weight / 2))
+        } else {
+          return count = count + (num - weight)
+        }
+      }
+    }
+
+    // Update total with custom weights
+    function weightTotal(num,) {
+      return total = total + (num - weight)
+    }
+
+    // Call custom count & total weight updates
+    function custom(item, num) {
+      weightCount(item,num)
+      weightTotal(num)
+    }
+
+    // Custom weights (Default = 1)
+    custom(lyrics, 2)
+    custom(melody, 2)
+    custom(ldVox, 3)
+    custom(bgv, 1.5)
+    custom(prod, 4)
+    custom(mix, 1.5)
+
+    // Calc Percentage
+    const progress = count / total;
+    const strokeProgress = Math.round(progress * 100);
+    const strokeDashOffsetValue = 100 - strokeProgress;
+
+    return (
+      <div class={`progress-wrap ${strokeProgress === 100 ? 'done' : ''} ${weights.status === 'upcoming' ? 'upcoming' : ''}`}>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 34 34">
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#00ff00" />
+              <stop offset="100%" stop-color="#a8e063" />
+            </linearGradient>
+          </defs>
+          <circle cx="16" cy="16" r="15.9155" class="circle-bg" />
+          <circle cx="16" cy="16" r="15.9155" class="circle-progress" style={`stroke-dashoffset:${strokeDashOffsetValue};stroke:rgba(255,255,255,${Math.round(progress * 10) / 10});`} />
+        </svg>
+        <div class="progress-num">{strokeProgress}<span>%</span></div>
+      </div>
+    )
+  }}
+
+</div>

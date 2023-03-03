@@ -1,0 +1,46 @@
+@import '../base/variables.scss';
+
+// Circle
+.progress-wrap {
+  $progress-bar-stroke-width: 2.5;
+  $progress-bar-size: 56px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.done {
+    .circle-progress {
+      fill: white;
+    }
+    .progress-num {
+      color: black;
+      font-weight: bold;
+    }
+  }
+  .progress-num {
+    position: absolute;
+    display: flex;
+    font-size: 14px;
+  }
+  svg {
+    height: $progress-bar-size;
+    transform: rotate(-90deg);
+    width: $progress-bar-size;
+  }
+  .circle-bg {
+    fill: none;
+    stroke: lighten(black, 10%);
+    stroke-width: $progress-bar-stroke-width;
+  }
+  .circle-progress {
+    fill: none;
+    stroke: lighten(black, 10%);
+    stroke: white;
+    stroke-dasharray: 100 100;
+    stroke-dashoffset: 100;
+    stroke-linecap: round;
+    stroke-width: $progress-bar-stroke-width;
+    transition: stroke-dashoffset 1s ease-in-out;
+  }
+}

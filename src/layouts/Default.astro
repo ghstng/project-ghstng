@@ -1,0 +1,41 @@
+---
+import Meta from '@components/Meta.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/layouts/Page.scss';
+import '@styles/components/Scrollbar.scss';
+import { site } from '../config';
+
+export interface Props {
+	layoutClass?: string
+}
+
+const {
+	layoutClass
+} = Astro.props;
+
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<Meta title={site.title} description={site.description} />
+	</head>
+	<body class={layoutClass}>
+    <Header />
+		<div class="content">
+			<main>
+				<slot />
+			</main>
+			<Footer />
+		</div>
+	</body>
+</html>
+
+<style lang="scss">
+	.content {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+</style>

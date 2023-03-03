@@ -1,0 +1,31 @@
+@import '/src/assets/styles/base/variables.scss';
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  color: rgba($theme-bg, 0.15);
+  font-weight: normal;
+  margin: 1rem 0 0;
+  font-size: 16px;
+  a {
+    color: invert($text-dark);
+    font-weight: bold;
+    margin-right: 0.5rem;
+    &:hover {
+      span {
+        text-decoration-color: $brand-secondary;
+      }
+    }
+  }
+  i {
+    font-size: 90%;
+    line-height: 1.4;
+    margin-right: 0.35rem;
+  }
+  .title {
+    color: $brand-secondary;
+    margin-bottom: 0;
+    margin-left: 0.5rem;
+    font-weight: bold;
+  }
+}

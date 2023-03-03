@@ -1,0 +1,83 @@
+---
+import Default from '@layouts/Default.astro';
+import {slugify} from '@scripts/utils.js';
+
+import '@styles/layouts/BlogPost.scss';
+import '@styles/components/Breadcrumb.scss';
+
+export interface Props {
+	content: {
+		title: string;
+		description: string;
+		pubDate: string;
+		updatedDate?: string;
+		featureImage?: string;
+		author: string;
+		category?: string;
+	};
+}
+
+const {
+	content: { title, pubDate, updatedDate, featureImage, author, category }
+} = Astro.props;
+
+import { getEntryBySlug } from 'astro:content';
+const team = await getEntryBySlug('team', `${slugify(author)}`);
+
+let date: Date = new Date(pubDate + 'T00:00:00');
+---
+<script>
+	let article = document.querySelector('.post article');
+	let wordcount = article.innerHTML.split(' ').length;
+	let avgReadTime = Math.ceil(wordcount/225);
+	document.querySelector('.read-time').innerHTML = `${avgReadTime + 'min' + ' ' + 'read'}`;
+</script>
+
+
+<Default layoutClass="page post">
+	<div class="center-wrap">
+		<div class="breadcrumb">
+			<a href="/blog/">
+				<i class="material-symbols-outlined">arrow_back</i>
+				<span>Blog</span>
+			</a>/
+			<span class="title">{title}</span>
+		</div>
+
+		<div class="post-heading">
+			{category && <div class="category">{category}</div>}
+			<h1 class="title">{title}</h1>
+			<div class="post-info flex">
+				{team.data.profileImage
+					? <img src={team.data.profileImage} class="post-author-img">
+					: <div><i class="material-symbols-outlined"></i></div>
+				}
+				<div class="post-meta flex-col">
+					<div class="post-meta-author">{author}</div>
+					<div class="post-meta-info flex">
+						<div class="pub-date">
+							{(pubDate && !updatedDate) && <time>{date.toLocaleString('en-us', {month: 'short', day: '2-digit', year: 'numeric'})}</time>}
+							{updatedDate && <div>Last updated on <time>{updatedDate}</time></div>}
+						</div>
+						<span>•</span>
+						<div class="read-time"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<article>
+			{featureImage && 
+				<img
+					width={720}
+					height={360}
+					src={featureImage}
+					alt=""
+				/>
+			}
+			<slot />
+		</article>
+	</div>
+</Default>

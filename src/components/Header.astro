@@ -1,0 +1,87 @@
+---
+import Modal from '@components/Modal.astro';
+
+import '@styles/components/Header.scss';
+
+import logo from '@images/logo.svg';
+import logoInvert from '@images/logo-invert.svg';
+
+import menu from '@data/menu.yml';
+---
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.querySelector('.header').classList[scrollY > 0 ? 'add' : 'remove']('moving')
+  });
+</script>
+
+<header class="header">
+  <figure>
+    <a class="btn btn-fab menu-btn hide-md-up" 
+       onclick={`window.headerMobile.showModal();modalOpen(event)`} 
+       style="cursor:pointer;">
+      <i class="material-symbols-outlined">menu</i>
+    </a>
+    <a href="/" class={`logo hide-md-down`}>
+      <img src={logo} alt="" class="logo-icon" />
+      <img src={logoInvert} alt="" class="logo-icon-invert" />
+    </a>
+  </figure>
+  <nav>
+    {menu.map((item: {url: string, title: string, target: string}) => {
+      const isActive = item.url.split('/')[1] === Astro.url.pathname.split('/')[1];
+      return (
+        <a href={item.url} title={item.title} target={item.target} class:list={{ active: isActive }}>{item.title}</a>
+      )
+    })}
+  </nav>
+  <div class="btn-group">
+    <a href="https://github.com/ghstng/ghstng.com" class="btn btn-icon hide-md-down" target="_blank" title="View in Github"><i class="icon-github"></i></a>
+    <a href="/connect/" class="btn btn-primary">Connect</a>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<Modal id="headerMobile">
+  <div class="mobile-nav">
+    <img src={logoInvert} alt="ghstng logo" class="logo-icon-invert" />
+    <nav>
+      <a href="/" title="Home">Home</a>
+      {menu.map((item) => {
+        const isActive = item.url.split('/')[1] === Astro.url.pathname.split('/')[1];
+        return (
+          <a href={item.url} title={item.title} class:list={{ active: isActive }}>{item.title}</a>
+        )
+      })}
+    </nav>
+  </div>
+</Modal>
+
+<!-- Modal Open: disable scroll -->
+<script is:inline>
+  window.modalOpen = function(e, src){
+    document.querySelector('body').classList.add('modal-is-active');
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        modalClose(e)
+      }
+    });
+    e.preventDefault();
+  }
+  window.modalClose = function(e){
+    document.querySelector('body').classList.remove('modal-is-active');
+    document.removeEventListener('keydown', event);
+    e.preventDefault();
+  }
+</script>
+
+<style lang="scss">
+  .header {
+    display: grid;
+    grid-template-columns:
+      1fr
+      50%
+      1fr
+    ;
+  }
+</style>

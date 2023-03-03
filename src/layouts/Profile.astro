@@ -1,0 +1,247 @@
+---
+import Default from '@layouts/Default.astro';
+
+import Progress from '@components/Progress.astro';
+import Modal from '@components/Modal.astro';
+
+import { split } from '@assets/scripts/utils';
+
+import '@styles/layouts/Profile.scss';
+import '@styles/components/Progress.scss';
+import '@styles/components/Breadcrumb.scss';
+
+const { frontmatter } = Astro.props;
+
+const songs = (await Astro.glob('/src/pages/projects/*.{md,mdx}'));
+const totalProjects = songs.filter(song => song.frontmatter.team.includes(frontmatter.artistName));
+const links = frontmatter.links;
+
+// Iterate through projects (progress) and find roles -> then flatten to single array, remove duplicates and sort
+const singleArray = [];
+let rolesArray = [];
+totalProjects.map(songs => {
+  const progress = songs.frontmatter.progress;
+  const match = frontmatter.artistName
+  Object.keys(progress).map(roles => {
+    Object.keys(progress[roles]).map(role => {
+      const myObject = progress[roles];        
+      Object.entries(myObject).forEach(([key, value]) => {
+        if (Array.isArray(value) && value.some(item => item === match)) {
+          singleArray.push(key);
+          const flatArray = Array.from(new Set(singleArray))
+          rolesArray = flatArray.slice().sort()
+        }
+      });
+    }) 
+  })
+})
+
+// Update a few role names
+function updateRole(oldName, newName) {
+  const oldRole = oldName;
+  const newRole = newName;
+  const index = rolesArray.indexOf(oldRole);
+  if (index !== -1) {
+    rolesArray.splice(index, 1, newRole);
+  }
+}
+updateRole('lead', 'Lead Vocals')
+updateRole('background', 'Background Vocals')
+updateRole('producer', 'Production')
+updateRole('mix', 'Mixing')
+updateRole('master', 'Mastering')
+---
+
+<Default layoutClass="profile">
+  <div class="center-wrap">
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="/team/">
+        <i class="material-symbols-outlined">arrow_back</i>
+        <span>Team</span>
+      </a>/
+      <span class="title">{frontmatter.artistName}</span>
+    </div>
+
+    <div class="grid">
+
+      <!-- Profile Info -->
+      <div class="profile-header flex-col">
+        {frontmatter.profileImage
+          ? <figure>
+              <img src={frontmatter.profileImage} 
+                  onclick={`profileImg.showModal();modalOpen(event);`} 
+                  class="profile-img"
+                  style="cursor:pointer;"
+                  alt={`About ${frontmatter.artistName}`}
+              />
+              <Modal id="profileImg">
+                <img src={frontmatter.profileImage} alt={` Profile Image`} />
+              </Modal>
+            </figure>
+          : <figure>
+              <div class="profile-img default">No Profile Image</div>
+            </figure>
+        }
+        <h1>{frontmatter.artistName}</h1>
+        <div class="card padding stats">
+          <div class="stats-body">
+            {frontmatter.legalName && 
+              <label>Name:</label>
+              <span>{frontmatter.legalName}</span>
+            }
+            <label>Location:</label>
+            <span>
+              {() => {
+                if(frontmatter.locationCity && frontmatter.locationRegion && frontmatter.locationCountry) {
+                  return frontmatter.locationCity + ', ' + frontmatter.locationRegion + ', ' + frontmatter.locationCountry
+                } 
+                else if(frontmatter.locationCity && !frontmatter.locationRegion && frontmatter.locationCountry) {
+                  return  frontmatter.locationCity + ', ' + frontmatter.locationCountry
+                }
+                else if ((!frontmatter.locationCity && frontmatter.locationRegion && frontmatter.locationCountry) ||
+                          !frontmatter.locationCity && !frontmatter.locationRegion && frontmatter.locationCountry) {
+                  return frontmatter.locationCountry
+                }
+                else {
+                  return `🤷`
+                }
+              }}
+            </span>
+            <!-- {frontmatter.startDate &&
+              <label>Joined:</label>
+              <span>{formatDate(frontmatter.startDate)}</span>
+            } -->
+          </div>
+        </div>
+        <article class="profile-bio">
+          <slot />
+        </article>
+        {totalProjects &&
+          <div class="profile-roles flex-col">
+            <label>{rolesArray.length > 1 ? 'Roles:' : 'Role'}</label>
+            <div class="btn-group">
+              {rolesArray.map(role => 
+                <span class="badge">{split(role)}</span>
+              )}
+            </div>
+          </div>
+        }
+        {links &&
+          <div class="profile-links flex-col">
+            <label>Links:</label>
+            <div class="btn-group">
+              {Object.keys(links).map(item =>
+                <a href={links[item].url}>
+                  <i class={links[item].icon}></i> 
+                  <span>{links[item].name}</span>
+                </a>
+              )}
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Projects -->
+      <div class="profile-body">
+        <h4 class="table-header">Projects <span class="badge">{totalProjects.length}</span></h4>
+        <div class="items">
+          {totalProjects.sort((a,b) => {
+            if (b.frontmatter.order > a.frontmatter.order) return -1;
+            if (b.frontmatter.order < a.frontmatter.order) return 1;
+            if (a.frontmatter.status == 'released') return -1;
+            if (b.frontmatter.status == 'released') return 1;
+            if (a.frontmatter.status == 'in-progress') return -1;
+            if (b.frontmatter.status == 'in-progress') return 1;
+            if (b.frontmatter.status > a.frontmatter.status) return 1;
+            if (b.frontmatter.status < a.frontmatter.status) return -1;
+            if (b.frontmatter.releaseDate > a.frontmatter.releaseDate) return 1;
+            if (b.frontmatter.releaseDate < a.frontmatter.releaseDate) return -1;
+            if (b.frontmatter.title > a.frontmatter.title) return -1;
+            if (b.frontmatter.title < a.frontmatter.title) return 1;
+          }).map(song => (
+            
+            <a href={`/projects/${song.frontmatter.slug}`} class="card item">
+              <div class="item-header">
+              {song.frontmatter.artwork
+                ? <div class="item-image">
+                    <img src={`/assets/images/projects/${song.frontmatter.slug}.jpg`} alt={`${song.frontmatter.title} artwork`} />
+                  </div>
+                : <div class="item-image default"><i class="material-symbols-outlined">brush</i></div>
+              }
+              </div>
+              <div class="item-info">
+                <div class="item-title truncate">
+                  {() => {
+                    const featured = song.frontmatter.featured;
+                    if(featured && featured.length > 0){
+                      return (
+                        <>
+                          {song.frontmatter.title}
+                          <span> (feat. {featured.length > 1 ? featured.join(', ') : featured})</span>
+                        </>
+                      )
+                    } else {
+                      return (
+                        song.frontmatter.title
+                      )
+                    }
+                  }}
+                </div>
+                <div class={`item-status ${song.frontmatter.status}`}>
+                  <span class="badge">{song.frontmatter.status}</span>
+                </div>
+              </div>
+              <div class="item-progress">
+                <Progress weights={song.frontmatter} />
+              </div>
+            </a>
+
+          ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+</Default>
+
+<!-- Modal Open: disable scroll -->
+<script is:inline>
+  window.modalOpen = function(e, src){
+    document.querySelector('body').classList.add('modal-is-active');
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        modalClose(e)
+      }
+    });
+    e.preventDefault();
+  }
+  window.modalClose = function(e){
+    document.querySelector('body').classList.remove('modal-is-active');
+    document.removeEventListener('keydown', event);
+    e.preventDefault();
+  }
+</script>
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+
+  .grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 4rem;
+    @media (max-width: $screen-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .stats {
+    .stats-body {
+      display: grid;
+      align-items: center;
+      grid-template-columns: min-content 1fr;
+      column-gap: 1rem;
+    }
+  }
+</style>

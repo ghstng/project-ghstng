@@ -1,0 +1,27 @@
+---
+import {formatDate, slugify} from '@scripts/utils.js';
+import '@styles/components/Comment.scss';
+
+const {date, author, type} = Astro.props;
+
+import { getEntryBySlug } from 'astro:content';
+const team = await getEntryBySlug('team', `${slugify(author)}`);
+---
+
+<div class={`comment ${type}`}>
+  <a href={`/team/${team.slug}`} class="author-img">
+    {team.data.profileImage
+      ? <img src={team.data.profileImage} >
+      : <div><i class="material-symbols-outlined"></i></div>
+    }
+  </a>
+  <div class="flex-col">
+    <div class="comment-wrap">
+      <div class="comment-info">
+        <span class="author-name">{author}</span>
+        <span class="date">{formatDate(date)}</span>
+      </div>
+      <slot />
+    </div>
+  </div>
+</div>

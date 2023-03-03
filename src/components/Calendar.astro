@@ -1,0 +1,75 @@
+---
+import {formatDate} from '@scripts/utils.js';
+
+const {releaseDate} = Astro.props;
+---
+
+{() => {
+
+  // if (releaseDate.status === 'in-progress') {
+  //   return (
+  //   <div class={`calendar ${releaseDate.status}`}>
+  //     <span id="monthName">{date.toLocaleString('en-us', {month: 'short'})}</span>
+  //     <div class="calendar-inner">
+  //       <span id="dayNumber">{date.getDate()}</span>  
+  //     </div>
+  //   </div>
+  //   )
+  // }
+  if ((releaseDate.status === 'released' || releaseDate.status === 'in-progress') && releaseDate.releaseDate){
+    return (
+      <span>{formatDate(releaseDate.releaseDate)}</span>
+    )
+  } else {
+    return (
+      `-`
+    )
+  }
+}}
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+
+  .calendar {
+    $calendar-size:  56px;
+
+    display: flex;
+    flex-direction: column;
+    height: $calendar-size;
+    width: $calendar-size;
+    border-radius: 1rem;
+    overflow: hidden;
+    text-align: center;
+    font-weight: 600;
+    &.in-progress {
+      #monthName {
+        background: $brand-red;
+      }
+    }
+    #monthName {
+      background: darken($brand-blue, 3%);
+      color: white;
+      font-size: 12px;
+      line-height: 1.4;
+      letter-spacing: 0.05rem;
+    }
+    .calendar-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: white;
+    }
+    #dayNumber {
+      color: $text-dark;
+      font-size: 24px;
+      line-height: 1.4;
+      padding-top: 0.15rem;
+      font-weight: bold;
+    }
+    // #year {
+    //   color: $text-light;
+    //   font-size: 12px;
+    //   line-height: 1;
+    // }
+  }
+</style>

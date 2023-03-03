@@ -1,0 +1,50 @@
+<div class="jazzed-up card">
+  <div class="card-body">
+    <h3>Jazzed up? Want to help?</h3>
+    <p>Help me spread the word. Share this site with any musician/artist, publication, media outlet, blogger, influencer, label, network, follower, reddit group, you may know!</p>
+  </div>
+</div>
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+
+  .jazzed-up {
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center right;
+    margin-bottom: 2rem;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    @media(max-width: $screen-md) {
+      flex-direction: column;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      background: linear-gradient(75deg, $brand-danger 15%, rgba($brand-warning,0.9) 100%);
+    }
+    .card-body {
+      z-index: 1;
+    }
+    h3 {
+      font-size: 36px;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 20px;
+      margin: 0 0 0.5rem;
+    }
+  }
+</style>

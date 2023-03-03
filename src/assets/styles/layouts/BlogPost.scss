@@ -1,0 +1,55 @@
+@import '/src/assets/styles/base/variables.scss';
+
+.post {
+  article {
+    font-family: $serif;
+    font-size: 24px;
+    h1, h2, h3, h4 ,h5 ,h6 {
+      font-family: $font-family;
+    }
+  }
+  .center-wrap {
+    max-width: 960px;
+  }
+  .post-author-img {
+    $size:  42px;
+
+    width: $size;
+    height: $size;
+    border-radius: calc($size / 2.6);
+    margin-right: 0.75rem;
+	}
+	.category {
+		color: $brand-warning;
+		font-weight: bold;
+		text-transform: capitalize;
+	}
+	.post-heading {
+		margin-top: 2rem;
+	}
+	h1.title {
+		margin-top: 0.5rem;
+		margin-bottom: 1rem;
+	}
+	.post-info {
+		align-items: center;
+	}
+	.post-meta {
+		margin-top: -6px;
+	}
+  .post-meta-author {
+		font-weight: 600;
+		font-size: 17px;
+		line-height: 1.8;
+  }
+	.post-meta-info {
+		display: inline-flex;
+		align-items: center;
+		font-size: 14px;
+		height: 18px;
+		color: invert($text-light);
+		>span {
+			margin: 0.5rem;
+		}
+	}
+}

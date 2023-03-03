@@ -1,0 +1,65 @@
+@import '/src/assets/styles/base/variables.scss';
+
+#updates {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.comment {
+  display: flex;
+  .author-img {
+    $size:  42px;
+
+    width: $size;
+    height: $size;
+    min-width: $size;
+    border-radius: calc($size / 2.6);
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    overflow: hidden;
+    cursor: pointer;
+    img {
+      width: $size;
+      height: $size;
+    }
+  }
+  .date {
+    color: invert($text-lighter);
+    font-size: 75%;
+  }
+}
+.comment-wrap {
+  display: flex;
+  flex-direction: column;
+  background: black;
+  min-width: 360px;
+  border-radius: 24px;
+  padding: 0.5rem 1rem;
+  font-size: 18px;
+  .comment-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .author-name {
+    font-weight: bold;
+  }
+  p {
+    color: invert($text);
+    margin: 0 0 0.75rem;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Note
+.comment.note {
+  .comment-wrap {
+    background: lighten(black, 12%);
+  }
+  .date {
+    color: invert($text-light);
+  }
+}

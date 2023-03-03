@@ -1,0 +1,83 @@
+---
+import Page from "@layouts/Page.astro";
+import moment from 'moment';
+
+import Modal from '@components/Modal.astro';
+
+import '@styles/pages/media.scss'
+import '@styles/components/MediaWrap.scss'
+
+import media from '@data/media.yml';
+---
+
+<Page title="Media" pageClass="page media">
+
+  <!-- Media -->
+  <section>
+    <div class="center-wrap">
+      <h2>Media</h2>
+      <div class="playlist">
+        <!-- <h4>What is open source music?</h4> -->
+        <div class="media-wrap">
+          {media.map(item =>
+            <div id={item.videoId} class="media-item play-button" onclick={`mediaItem.showModal();modalOpen(event, this.id);scrollDisabled()`}>
+              <figure>
+                <div class="thumbnail-wrap">
+                  <img src={`https://i3.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}>
+                  <i class="material-symbols-outlined">play_arrow</i>
+                </div>
+              </figure>
+              <span class="media-name">{item.name}</span>
+            </div>
+          )}
+        </div>
+      </div>
+      <Modal id="mediaItem">
+        <div class="video-wrap">
+          <iframe class="youtube-video" width="800" height="450" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <div id="player"></div>
+        </div> 
+      </Modal>
+    </div>
+  </section>
+</Page>
+
+<!-- Modal Open: inject youtube id, play video && disable scroll -->
+<script is:inline>
+  window.modalOpen = function(e, src){
+    if(document.querySelector('.youtube-video')){
+      document.querySelector('.youtube-video').setAttribute('src', `https://www.youtube.com/embed/${src}?rel=0&autoplay=1`);
+    }
+    document.querySelector('body').classList.add('modal-is-active');
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        modalClose(e)
+      }
+    });
+    e.preventDefault();
+  }
+  window.modalClose = function(e){
+    if(document.querySelector('.youtube-video')){
+      document.querySelector('.youtube-video').setAttribute('src', '');
+    }
+    document.querySelector('body').classList.remove('modal-is-active');
+    document.removeEventListener('keydown', event);
+    e.preventDefault();
+  }
+</script>
+
+<style lang="scss">
+  @import '/src/assets/styles/base/variables.scss';
+  
+  .media-wrap {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+		@media (max-width: $screen-md) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		@media (max-width: $screen-sm) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+  }  
+</style>

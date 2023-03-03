@@ -1,0 +1,44 @@
+---
+const {btnText, rows, className} = Astro.props;
+---
+
+<div class="collapsible">
+  <div class={`content ${className}`} style={`-webkit-line-clamp: ${rows};`}>
+    <slot/>
+  </div>
+  <div class="expand-btn">{btnText}</div>
+</div>
+<script>
+  document.addEventListener('turbolinks:load', () => {
+    const content = document.querySelector('.collapsible');
+    document.querySelector('.expand-btn').addEventListener('click', () => 
+      content.classList[content.classList.contains('expand') ? 'remove' : 'add']('expand')
+    )
+  });
+</script>
+
+<style lang="scss">
+  .collapsible {
+    width: 100%;
+    &.expand {
+      .content {
+        overflow: initial;
+        -webkit-line-clamp: initial!important;
+      }
+    }
+    .expand-btn {
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0.5rem 0;
+    }
+    .content {
+      $line-height:   1.6rem;
+
+      line-height: $line-height;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+  }
+</style>

@@ -1,0 +1,21 @@
+@import '/src/assets/styles/base/variables.scss';
+
+.news {
+  section {
+    padding: 4rem 1rem;
+    h2 {
+      margin-top: 0;
+    }
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .media {
+    background: rgba(white, 0.05);
+  }
+  .media-wrap {
+    margin-top: 2rem;
+  }
+}

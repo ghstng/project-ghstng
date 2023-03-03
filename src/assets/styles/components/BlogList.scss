@@ -1,0 +1,65 @@
+@import '/src/assets/styles/base/variables.scss';
+
+.post-preview {
+  column-gap: 1rem;
+}
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  @media (max-width: $screen-md) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: $screen-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+.post.card {
+  background: rgba(white, 0.06);
+  padding: 1.5rem 2rem;
+}
+.post-category {
+  color: $brand-warning;
+  text-transform: capitalize;
+}
+.post-title {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+.post-info {
+  margin-top: 1rem;
+  > div {
+    margin-top: -0.5rem;
+  }
+}
+.post-author-img {
+  $size:  36px;
+
+  width: $size;
+  height: $size;
+  border-radius: calc($size / 2.6);
+  margin-right: 0.75rem;
+}
+.post-date {
+  display: flex;
+  align-items: center;
+  column-gap: 0.35rem;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1;
+  color: invert($text-light);
+}
+.post-author {
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  line-height: 1.8;
+  font-weight: 600;
+  font-size: 16px;
+}
+.post-description  {
+  font-family: $serif;
+  font-weight: 300;
+  font-size: 18px;
+}
