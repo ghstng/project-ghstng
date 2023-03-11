@@ -10,6 +10,8 @@ export interface Props {
 }
 
 const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
+
+const GTM = import.meta.env.GTM;
 ---
 
 <!-- Global Metadata -->
@@ -42,11 +44,11 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153547389-1"></script>
+<script async src={`https://www.googletagmanager.com/gtag/js?id=${GTM}`} type="text/partytown"></script>
 <script>
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
 	gtag('js', new Date());
 
-	gtag('config', 'UA-153547389-1');
+	gtag('config', GTM );
 </script>
