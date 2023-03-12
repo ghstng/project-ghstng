@@ -9,9 +9,18 @@ import partytown from "@astrojs/partytown";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ghstng.com',
-  integrations: [mdx({
-    remarkPlugins: [remarkBreaks]
-  }), sitemap(), prefetch(), partytown()],
+  integrations: [
+    mdx({
+      remarkPlugins: [remarkBreaks]
+    }), 
+    sitemap(), 
+    prefetch(), 
+    partytown({
+      config: {
+        forward: ["dataLayer.push"]
+      }
+    })
+  ],
   vite: {
     plugins: [yaml()]
   }
