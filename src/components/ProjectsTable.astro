@@ -88,6 +88,7 @@ import Calendar from '@components/Calendar.astro';
         minmax(150px, 1fr) //release
         100px //actions
       ;
+      gap: 1rem;
       .item-link {
         position: absolute;
         top: 0;
@@ -102,16 +103,17 @@ import Calendar from '@components/Calendar.astro';
       overflow-x: auto;
     }
     @media (max-width: $screen-sm) {
-      .item {
-        
-      grid-template-columns:
-        70px //image
-        minmax(150px, 1.6fr) //song
-        minmax(100px, 1fr) //status
-        max-content //progress
-      ;
+      .item {  
+        grid-template-columns:
+          70px //image
+          1fr //song
+          max-content //progress
+        ;
       }
-      .item-team, .item-release, .item-actions {
+      .item-name {
+        font-size: 16px;
+      }
+      .item-team, .item-release, .item-actions, .item-status {
         display: none;
       }
     }

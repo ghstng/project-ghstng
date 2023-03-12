@@ -366,4 +366,18 @@ const media = frontmatter.media
       top: initial!important;
     }
   }
+  @media (max-width: $screen-sm) {
+    .content {
+      #files {
+        .folder {
+          display: grid;
+          align-items: center;
+          grid-template-columns: 42px 1fr 42px;
+        }
+      }
+      .folder-type, .folder-date {
+        display: none;
+      }
+    }
+  }
 </style>

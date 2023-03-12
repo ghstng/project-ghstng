@@ -2,7 +2,7 @@
 
 .cards {
   display: grid;
-  column-gap: 1rem;
+  gap: 1rem;
   margin-bottom:  2rem;
   grid-template-columns:
     1fr
@@ -30,5 +30,8 @@
     span {
       font-size: 3.6rem;
     }
+  }
+  @media (max-width: $screen-sm) {
+    grid-template-columns: 1fr;
   }
 }

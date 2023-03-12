@@ -164,5 +164,11 @@
         color: invert($text-dark);
       }
     }
+    @media (max-width: $screen-xs) {
+      grid-template-columns: min-content 2fr 1fr;
+      .playlist-date {
+        display: none;
+      }
+    }
   }
 }

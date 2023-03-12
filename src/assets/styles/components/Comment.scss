@@ -27,6 +27,20 @@
     color: invert($text-lighter);
     font-size: 75%;
   }
+  @media (max-width: $screen-sm) {
+    .author-img {
+      $size:  28px;
+  
+      width: $size;
+      height: $size;
+      min-width: $size;
+      border-radius: calc($size / 2.6);
+      img {
+        width: $size;
+        height: $size;
+      }
+    }
+  }
 }
 .comment-wrap {
   display: flex;
@@ -51,6 +65,10 @@
     &:last-of-type {
       margin-bottom: 0;
     }
+  }
+  @media (max-width: $screen-sm) {
+    min-width: auto;
+    font-size: 14px;
   }
 }
 
