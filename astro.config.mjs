@@ -17,9 +17,9 @@ export default defineConfig({
     prefetch(), 
     partytown({
       config: {
-        forward: ["dataLayer.push"]
-      }
-    })
+        forward: ["dataLayer.push"],
+      },
+    }),
   ],
   vite: {
     plugins: [yaml()]
