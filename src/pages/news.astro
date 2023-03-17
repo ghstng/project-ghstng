@@ -60,7 +60,7 @@ import media from '@data/media.yml';
 <script is:inline>
   window.modalOpen = function(e, src){
     if(document.querySelector('.youtube-video')){
-      document.querySelector('.youtube-video').setAttribute('src', `https://www.youtube.com/embed/${src}?rel=0&autoplay=1`);
+      document.querySelector('.youtube-video').setAttribute('src', `https://www.youtube.com/shorts/${src}?rel=0&autoplay=1`);
     }
     document.querySelector('body').classList.add('modal-is-active');
     document.addEventListener('keydown', event => {
