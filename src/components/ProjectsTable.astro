@@ -1,13 +1,13 @@
 ---
-const {songs} = Astro.props;
+const { songs } = Astro.props;
 
-import '@styles/components/ProjectTable.scss';
-import '@styles/components/Progress.scss';
-import '@styles/pages/projects.scss';
+import "@styles/components/ProjectTable.scss";
+import "@styles/components/Progress.scss";
+import "@styles/pages/projects.scss";
 
-import TeamMember from '@components/TeamMember.astro';
-import Progress from '@components/Progress.astro';
-import Calendar from '@components/Calendar.astro';
+import TeamMember from "@components/TeamMember.astro";
+import Progress from "@components/Progress.astro";
+import Calendar from "@components/Calendar.astro";
 ---
 
 <div class="items flex-col">
@@ -20,74 +20,91 @@ import Calendar from '@components/Calendar.astro';
     <span class="item-release">Release</span>
     <span class="item-actions"></span>
   </div>
-  {songs.sort((a,b) => {
-    if (b.frontmatter.order > a.frontmatter.order) return -1;
-    if (b.frontmatter.order < a.frontmatter.order) return 1;
-    if (a.frontmatter.status == 'in-progress') return -1;
-    if (b.frontmatter.status == 'in-progress') return 1;
-    if (b.frontmatter.status > a.frontmatter.status) return 1;
-    if (b.frontmatter.status < a.frontmatter.status) return -1;
-    if (b.frontmatter.releaseDate > a.frontmatter.releaseDate) return 1;
-    if (b.frontmatter.releaseDate < a.frontmatter.releaseDate) return -1;
-    if (b.frontmatter.title > a.frontmatter.title) return -1;
-    if (b.frontmatter.title < a.frontmatter.title) return 1;
-  }).map((song) => (
-    <div class="item">
-      <a  href={song.url} class="item-link"></a>
-      {song.frontmatter.artwork
-        ? <div class="item-image">
-            <img src={`/assets/images/projects/${song.frontmatter.slug}.jpg`} alt={`${song.frontmatter.title} artwork`} height="40" />
+  {
+    songs
+      .sort((a, b) => {
+        if (b.frontmatter.order > a.frontmatter.order) return -1;
+        if (b.frontmatter.order < a.frontmatter.order) return 1;
+        if (a.frontmatter.status == "in-progress") return -1;
+        if (b.frontmatter.status == "in-progress") return 1;
+        if (b.frontmatter.status > a.frontmatter.status) return 1;
+        if (b.frontmatter.status < a.frontmatter.status) return -1;
+        if (b.frontmatter.releaseDate > a.frontmatter.releaseDate) return 1;
+        if (b.frontmatter.releaseDate < a.frontmatter.releaseDate) return -1;
+        if (b.frontmatter.title > a.frontmatter.title) return -1;
+        if (b.frontmatter.title < a.frontmatter.title) return 1;
+      })
+      .map((song) => (
+        <div class="item">
+          <a href={song.url} class="item-link" />
+          {song.frontmatter.artwork ? (
+            <div class="item-image">
+              <img
+                src={`/assets/images/projects/${song.frontmatter.slug}.jpg`}
+                alt={`${song.frontmatter.title} artwork`}
+                height="40"
+              />
+            </div>
+          ) : (
+            <div class={`item-image default ${song.frontmatter.status}`}>
+              <i class="material-symbols-outlined">brush</i>
+            </div>
+          )}
+          <div class="item-name truncate">
+            {() => {
+              const featured = song.frontmatter.featured;
+              if (featured && featured.length > 0) {
+                return (
+                  <>
+                    {song.frontmatter.title}
+                    <span>
+                      {" "}
+                      (feat.{" "}
+                      {featured.length > 1 ? featured.join(", ") : featured})
+                    </span>
+                  </>
+                );
+              } else {
+                return song.frontmatter.title;
+              }
+            }}
           </div>
-        : <div class={`item-image default ${song.frontmatter.status}`}><i class="material-symbols-outlined">brush</i></div>
-      }
-      <div class="item-name truncate">
-        {() => {
-          const featured = song.frontmatter.featured;
-          if(featured && featured.length > 0){
-            return (
-              <>
-                {song.frontmatter.title}
-                <span> (feat. {featured.length > 1 ? featured.join(', ') : featured})</span>
-              </>
-            )
-          } else {
-            return (
-              song.frontmatter.title
-            )
-          }
-        }}
-      </div>
-      <div class="item-team">
-        <TeamMember members={song.frontmatter.team}/>
-      </div>
-      <div class={`item-status ${song.frontmatter.status}`}>
-        <span class="badge">{song.frontmatter.status}</span>
-      </div>
-      <div class="item-progress">
-        <Progress weights={song.frontmatter} />
-      </div>
-      <div class={`item-release ${!song.frontmatter.releaseDate ? 'tbd' : '' }`}>
-        <Calendar releaseDate={song.frontmatter}/>
-      </div>
-      <div class="item-actions">View</div>
-    </div>
-  ))}
+          <div class="item-team">
+            <TeamMember members={song.frontmatter.team} />
+          </div>
+          <div class={`item-status ${song.frontmatter.status}`}>
+            <span class="badge">{song.frontmatter.status}</span>
+          </div>
+          <div class="item-progress">
+            <Progress weights={song.frontmatter} />
+          </div>
+          <div
+            class={`item-release ${!song.frontmatter.releaseDate ? "tbd" : ""}`}
+          >
+            <Calendar releaseDate={song.frontmatter} />
+          </div>
+          <div class="item-actions">
+            <span class="hide-xs">View</span>
+            <i class="material-symbols-outlined hide-sm-up">chevron_right</i>
+          </div>
+        </div>
+      ))
+  }
 </div>
 
 <style lang="scss">
-  @import '/src/assets/styles/base/variables.scss';
+  @import "/src/assets/styles/base/variables.scss";
 
   .items {
     .item {
-      grid-template-columns:
-        70px //image
+      grid-template-columns: 70px //image
         minmax(150px, 1.6fr) //song
         minmax(150px, 1fr) //team
         minmax(150px, 1fr) //status
         minmax(150px, 1fr) //progress
         minmax(150px, 1fr) //release
         100px //actions
-      ;
+;
       gap: 1rem;
       .item-link {
         position: absolute;
@@ -98,23 +115,33 @@ import Calendar from '@components/Calendar.astro';
         z-index: 1;
       }
     }
-    @media (max-width: $screen-md) {
-      overflow: hidden;
-      overflow-x: auto;
-    }
     @media (max-width: $screen-sm) {
-      .item {  
-        grid-template-columns:
-          70px //image
+      .item {
+        grid-template-columns: 50px //image
           1fr //song
           max-content //progress
-        ;
+          70px;
       }
       .item-name {
         font-size: 16px;
       }
-      .item-team, .item-release, .item-actions, .item-status {
+      .item-head {
+        .item-name {
+          font-size: 12px;
+        }
+      }
+      .item-team,
+      .item-release,
+      .item-status {
         display: none;
+      }
+    }
+    @media (max-width: $screen-xs) {
+      .item {
+        grid-template-columns: 50px //image
+          1fr //song
+          max-content //progress
+          24px;
       }
     }
   }
