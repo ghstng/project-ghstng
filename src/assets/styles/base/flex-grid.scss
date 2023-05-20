@@ -220,7 +220,7 @@
 }
 .hide-md-up {
  display: none!important;
- @media (max-width: $screen-lg) {
+ @media (max-width: $screen-md) {
   display: flex!important;
  }
 }
