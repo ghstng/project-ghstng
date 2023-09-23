@@ -18,6 +18,7 @@
   .center-wrap {
     max-width: 960px;
     > .row {
+      grid-template-columns: 2fr 1fr;
       flex-wrap: nowrap;
       column-gap: 2rem;
       margin-bottom: 4rem;
