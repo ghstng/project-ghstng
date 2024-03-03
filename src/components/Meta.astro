@@ -47,15 +47,4 @@ const { title, description, image = "/placeholder-social.jpg" } = Astro.props;
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FKMDXT4ERQ"
-></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag() {
-		dataLayer.push(arguments);
-	}
-	gtag("js", new Date());
-
-	gtag("config", "G-FKMDXT4ERQ");
-</script>
+<script defer src="https://us.umami.is/script.js" data-website-id="4e169f0b-f4be-4980-b243-1c1dbef7f0ec"></script>
